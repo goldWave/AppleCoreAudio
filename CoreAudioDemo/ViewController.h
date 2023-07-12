@@ -6,6 +6,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "JBHelper.h"
 
 @interface ViewController : NSViewController
 

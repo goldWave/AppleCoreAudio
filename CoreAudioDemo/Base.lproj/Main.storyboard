@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11134" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11134"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -673,7 +675,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModuleProvider=""/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate"/>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -703,15 +705,143 @@
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="616" height="370"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y9F-9I-v0x">
+                                <rect key="frame" x="13" y="46" width="63" height="32"/>
+                                <buttonCell key="cell" type="push" title="start" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="56f-99-o0s">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="oRl-YW-9D1">
+                                <rect key="frame" x="0.0" y="170" width="616" height="200"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="GGK-vq-anP">
+                                        <rect key="frame" x="11" y="149" width="183" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="GGK-vq-anP" secondAttribute="height" multiplier="181:30" id="zev-U0-if1"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="radio" title="core audiio 获取MP3 信息" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="exm-od-9rF">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="Vnb-3d-w7Q"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="Ay7-qs-hen">
+                                        <rect key="frame" x="212" y="149" width="183" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Ay7-qs-hen" secondAttribute="height" multiplier="181:30" id="0XO-X7-JrX"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="radio" title="生成波形音频原始文件" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="iyb-bX-d6M">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="SmM-Bu-Bqj"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Zm3-0O-N3Y">
+                                        <rect key="frame" x="413" y="149" width="183" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Zm3-0O-N3Y" secondAttribute="height" multiplier="181:30" id="lCa-xd-iIn"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="eSD-PY-Ssi">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="1xJ-rh-heF"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tIa-UU-Jae">
+                                        <rect key="frame" x="11" y="91" width="183" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="vLT-Fo-b0T">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="aR1-md-YXQ"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OIr-dF-kWn">
+                                        <rect key="frame" x="216" y="91" width="183" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="d37-kS-SnV">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="6pT-a9-AD6"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ERF-FI-3NJ">
+                                        <rect key="frame" x="11" y="-1" width="183" height="82"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="xGe-fK-caL">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="zDH-ZL-6Fm"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0rm-Ut-313">
+                                        <rect key="frame" x="413" y="91" width="183" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="qTW-Mw-ncd">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="g7Z-aq-rOx"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Zm3-0O-N3Y" firstAttribute="centerY" secondItem="GGK-vq-anP" secondAttribute="centerY" id="BbQ-5u-WRD"/>
+                                    <constraint firstItem="Ay7-qs-hen" firstAttribute="height" secondItem="GGK-vq-anP" secondAttribute="height" id="FaZ-VI-R8M"/>
+                                    <constraint firstItem="Zm3-0O-N3Y" firstAttribute="height" secondItem="GGK-vq-anP" secondAttribute="height" id="R3g-95-fgy"/>
+                                    <constraint firstItem="Zm3-0O-N3Y" firstAttribute="leading" secondItem="Ay7-qs-hen" secondAttribute="trailing" constant="20" id="d8u-nE-5i8"/>
+                                    <constraint firstItem="Ay7-qs-hen" firstAttribute="leading" secondItem="GGK-vq-anP" secondAttribute="trailing" constant="20" id="icM-OU-rzA"/>
+                                    <constraint firstItem="GGK-vq-anP" firstAttribute="leading" secondItem="oRl-YW-9D1" secondAttribute="leading" constant="13" id="jpS-jX-mk3"/>
+                                    <constraint firstItem="Ay7-qs-hen" firstAttribute="centerY" secondItem="GGK-vq-anP" secondAttribute="centerY" id="kDJ-hp-KA2"/>
+                                    <constraint firstItem="Zm3-0O-N3Y" firstAttribute="width" secondItem="GGK-vq-anP" secondAttribute="width" id="kkK-or-QGo"/>
+                                    <constraint firstItem="GGK-vq-anP" firstAttribute="top" secondItem="oRl-YW-9D1" secondAttribute="top" constant="20" id="qg6-j6-3z0"/>
+                                    <constraint firstAttribute="trailing" secondItem="Zm3-0O-N3Y" secondAttribute="trailing" constant="20" id="r3M-2g-R0q"/>
+                                    <constraint firstItem="Ay7-qs-hen" firstAttribute="width" secondItem="GGK-vq-anP" secondAttribute="width" id="xfJ-pl-HtC"/>
+                                    <constraint firstAttribute="height" constant="200" id="yRq-5v-KdK"/>
+                                </constraints>
+                            </customView>
+                            <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QUJ-xp-QGV">
+                                <rect key="frame" x="140" y="46" width="63" height="32"/>
+                                <buttonCell key="cell" type="push" title="stop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Owr-c3-iHd">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="oRl-YW-9D1" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="1E5-Un-Dkt"/>
+                            <constraint firstItem="Y9F-9I-v0x" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="173" id="82Z-3G-NcU"/>
+                            <constraint firstItem="Y9F-9I-v0x" firstAttribute="top" secondItem="oRl-YW-9D1" secondAttribute="bottom" constant="68" id="MyP-YX-eCd"/>
+                            <constraint firstAttribute="trailing" secondItem="oRl-YW-9D1" secondAttribute="trailing" id="VFj-d9-J3I"/>
+                            <constraint firstItem="Y9F-9I-v0x" firstAttribute="trailing" secondItem="QUJ-xp-QGV" secondAttribute="trailing" id="WWr-Tl-4kU"/>
+                            <constraint firstItem="QUJ-xp-QGV" firstAttribute="top" secondItem="Y9F-9I-v0x" secondAttribute="bottom" constant="32" id="XhO-BC-pqn"/>
+                            <constraint firstItem="oRl-YW-9D1" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="Zns-8F-cvC"/>
+                            <constraint firstItem="Y9F-9I-v0x" firstAttribute="leading" secondItem="QUJ-xp-QGV" secondAttribute="leading" id="cHv-kU-vmc"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="-12.5" y="708"/>
         </scene>
     </scenes>
 </document>

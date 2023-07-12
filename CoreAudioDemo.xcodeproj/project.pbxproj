@@ -7,14 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		582196342A5E535B00D0ACF2 /* JBGenerateAudioRaw.m in Sources */ = {isa = PBXBuildFile; fileRef = 582196332A5E535B00D0ACF2 /* JBGenerateAudioRaw.m */; };
 		58DB96C82A58389C00CB4A8B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 58DB96C72A58389C00CB4A8B /* AppDelegate.m */; };
 		58DB96CB2A58389C00CB4A8B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58DB96CA2A58389C00CB4A8B /* ViewController.m */; };
 		58DB96CD2A58389D00CB4A8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DB96CC2A58389D00CB4A8B /* Assets.xcassets */; };
 		58DB96D02A58389D00CB4A8B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58DB96CE2A58389D00CB4A8B /* Main.storyboard */; };
 		58DB96D22A58389D00CB4A8B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 58DB96D12A58389D00CB4A8B /* main.m */; };
+		58DB96DB2A583EED00CB4A8B /* JBCoreAudioMusicFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 58DB96DA2A583EED00CB4A8B /* JBCoreAudioMusicFile.m */; };
+		58DB96DE2A58414500CB4A8B /* JBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 58DB96DD2A58414500CB4A8B /* JBHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		582196322A5E535B00D0ACF2 /* JBGenerateAudioRaw.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JBGenerateAudioRaw.h; sourceTree = "<group>"; };
+		582196332A5E535B00D0ACF2 /* JBGenerateAudioRaw.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JBGenerateAudioRaw.m; sourceTree = "<group>"; };
 		58DB96C32A58389C00CB4A8B /* CoreAudioDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreAudioDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58DB96C62A58389C00CB4A8B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		58DB96C72A58389C00CB4A8B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -24,6 +29,10 @@
 		58DB96CF2A58389D00CB4A8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		58DB96D12A58389D00CB4A8B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		58DB96D32A58389D00CB4A8B /* CoreAudioDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CoreAudioDemo.entitlements; sourceTree = "<group>"; };
+		58DB96D92A583EED00CB4A8B /* JBCoreAudioMusicFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = JBCoreAudioMusicFile.h; path = Sub/JBCoreAudioMusicFile.h; sourceTree = "<group>"; };
+		58DB96DA2A583EED00CB4A8B /* JBCoreAudioMusicFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = JBCoreAudioMusicFile.m; path = Sub/JBCoreAudioMusicFile.m; sourceTree = "<group>"; };
+		58DB96DC2A58414500CB4A8B /* JBHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JBHelper.h; sourceTree = "<group>"; };
+		58DB96DD2A58414500CB4A8B /* JBHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JBHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +69,12 @@
 				58DB96C72A58389C00CB4A8B /* AppDelegate.m */,
 				58DB96C92A58389C00CB4A8B /* ViewController.h */,
 				58DB96CA2A58389C00CB4A8B /* ViewController.m */,
+				58DB96D92A583EED00CB4A8B /* JBCoreAudioMusicFile.h */,
+				582196322A5E535B00D0ACF2 /* JBGenerateAudioRaw.h */,
+				582196332A5E535B00D0ACF2 /* JBGenerateAudioRaw.m */,
+				58DB96DA2A583EED00CB4A8B /* JBCoreAudioMusicFile.m */,
+				58DB96DC2A58414500CB4A8B /* JBHelper.h */,
+				58DB96DD2A58414500CB4A8B /* JBHelper.m */,
 				58DB96CC2A58389D00CB4A8B /* Assets.xcassets */,
 				58DB96CE2A58389D00CB4A8B /* Main.storyboard */,
 				58DB96D12A58389D00CB4A8B /* main.m */,
@@ -137,8 +152,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58DB96DE2A58414500CB4A8B /* JBHelper.m in Sources */,
 				58DB96CB2A58389C00CB4A8B /* ViewController.m in Sources */,
+				58DB96DB2A583EED00CB4A8B /* JBCoreAudioMusicFile.m in Sources */,
 				58DB96D22A58389D00CB4A8B /* main.m in Sources */,
+				582196342A5E535B00D0ACF2 /* JBGenerateAudioRaw.m in Sources */,
 				58DB96C82A58389C00CB4A8B /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,7 +294,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K9UP278937;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
@@ -302,7 +320,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K9UP278937;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
