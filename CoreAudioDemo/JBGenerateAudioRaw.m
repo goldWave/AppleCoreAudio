@@ -9,6 +9,9 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <MacTypes.h>
 
+
+#define MY_SHAPE @"sine" //sine square saw
+
 @implementation JBGenerateAudioRaw
 
 //创建临时路径
@@ -38,12 +41,38 @@
     return [NSURL fileURLWithPath:path];
 }
 
+// 正弦波
 SInt16 generateSineShapeSample(int i, double waveLengthInSamples) {
     assert(i >= 1 && i <= waveLengthInSamples);
-   
-    SInt16 height = SHRT_MAX * sin(1 * M_PI * (i-1) / waveLengthInSamples);
+    
+    //SHRT_MAX short 最大值，代表振幅
+    //waveLengthInSamples 代表一个正弦波的 长度
+    SInt16 height = SHRT_MAX * sin(2 * M_PI * (i-1) / waveLengthInSamples);
     return  height;
 }
+
+//方形波
+SInt16 generateSquareShapeSample(int i, double waveLengthInSamples) {
+    assert(i >= 1 && i <= waveLengthInSamples);
+    
+    //SHRT_MAX short 最大值，代表振幅
+    if (i <= waveLengthInSamples / 2) {
+        return  SHRT_MAX;
+    } else {
+        return SHRT_MIN;
+    }
+}
+
+//锯齿波
+SInt16 generateSawShapeSample(int i, double waveLengthInSamples) {
+    assert(i >= 1 && i <= waveLengthInSamples);
+    
+    //SHRT_MAX short 最大值，代表振幅
+    SInt16 height = ((2 * SHRT_MAX) / waveLengthInSamples * (i-1)) - SHRT_MAX;
+    return  height;
+}
+
+
 - (NSString *)runCommand:(NSString *)commandToRun
 {
     NSTask *task = [[NSTask alloc] init];
@@ -71,7 +100,7 @@ SInt16 generateSineShapeSample(int i, double waveLengthInSamples) {
 
 
 - (void)gerneratePNGFile:(NSURL *)fileURL {
-    NSString *outputPng = [fileURL.path stringByReplacingOccurrencesOfString:@"aif" withString:@"png"];
+    NSString *outputPng = [fileURL.path stringByReplacingOccurrencesOfString:@".aif" withString:@"-p2p.png"];
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:outputPng]) {
         BOOL isSuccess = [[NSFileManager defaultManager] removeItemAtPath:outputPng error:nil];
@@ -81,16 +110,20 @@ SInt16 generateSineShapeSample(int i, double waveLengthInSamples) {
     }
     
     
-    NSString *cmd = [NSString stringWithFormat:@"/opt/homebrew/bin/ffmpeg -i %@ -filter_complex \"compand,showwavespic=s=2640x2120\" -frames:v 1 %@", fileURL.path, outputPng];
+    NSString *cmd = [NSString stringWithFormat:@"/opt/homebrew/bin/ffmpeg -i %@ -filter_complex \"compand,showwaves=s=1640x1120:mode=p2p\" -frames:v 1 %@", fileURL.path, outputPng];
     NSString *output = [self runCommand:cmd];
-    NSLog(@"--out png: %@", output);
+    NSLog(@"转换log： %@\n\n\n\n", output);
+    
+    
+    NSLog(@"--输出音频文件:%@", [fileURL path]);
+    NSLog(@"--输入音频波形图: %@", outputPng);
 }
 
 - (void)start {
     
     double hz = 440;
     
-    NSString *shape = @"sine"; //sine square saw
+    NSString *shape = MY_SHAPE;
     NSURL *fileURL = [self getFile:hz shape:shape];
     NSLog(@"--wirte file:%@", [fileURL path]);
   
@@ -117,7 +150,7 @@ SInt16 generateSineShapeSample(int i, double waveLengthInSamples) {
                                                &audioFile);
     assert(status == noErr);
     
-    long duration = 1.0;
+    long duration = 5.0;
     long maxSampleCount = desc.mSampleRate * duration;
     
     long sampleCount = 1;
@@ -131,14 +164,37 @@ SInt16 generateSineShapeSample(int i, double waveLengthInSamples) {
     
     NSLog(@"waveLengthInSample: %f", waveLengthInSample);
     
+//    //轮询填充样本
+//    while (sampleCount <= maxSampleCount) {
+//
+//        for(int i = 1; i <= waveLengthInSample; i++) {
+//            SInt16 sample = 0;
+//            sample = generateSineShapeSample(i, waveLengthInSample);
+//            sample = CFSwapInt16HostToBig(sample);
+//
+//            SInt64 offset = sampleCount * bytesToWrite;
+//            status = AudioFileWriteBytes(audioFile, false, offset, &bytesToWrite, &sample);
+//            assert(status == noErr);
+//
+//            sampleCount++;
+//        }
+//    }
+    
     //轮询填充样本
     while (sampleCount <= maxSampleCount) {
         
         for(int i = 1; i <= waveLengthInSample; i++) {
-            SInt16 sample = 0;
-            sample = generateSineShapeSample(i, waveLengthInSample);
-            sample = CFSwapInt16HostToBig(sample);
             
+            SInt16 sample = 0;
+            if ([shape isEqualToString:@"sine"]) {
+                sample = generateSineShapeSample(i, waveLengthInSample);
+            } else if ([shape isEqualToString:@"square"]) {
+                sample = generateSquareShapeSample(i, waveLengthInSample);
+            } else if ([shape isEqualToString:@"saw"]) {
+                sample = generateSawShapeSample(i, waveLengthInSample);
+            }
+            
+            sample = CFSwapInt16HostToBig(sample);
             SInt64 offset = sampleCount * bytesToWrite;
             status = AudioFileWriteBytes(audioFile, false, offset, &bytesToWrite, &sample);
             assert(status == noErr);
@@ -151,10 +207,9 @@ SInt16 generateSineShapeSample(int i, double waveLengthInSamples) {
     assert(status == noErr);
     
     NSLog(@"---write samples count: %ld", sampleCount);
-    NSLog(@"--wirte file:%@", [fileURL path]);
-    NSLog(@"----- done ---- ");
-    
+
     [self gerneratePNGFile: fileURL];
+    NSLog(@"----- done ---- ");
     
 }
 @end
