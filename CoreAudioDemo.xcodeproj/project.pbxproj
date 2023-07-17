@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		58182E762A650F4700A4691A /* JBPlayMp3.m in Sources */ = {isa = PBXBuildFile; fileRef = 58182E752A650F4700A4691A /* JBPlayMp3.m */; };
 		582196342A5E535B00D0ACF2 /* JBGenerateAudioRaw.m in Sources */ = {isa = PBXBuildFile; fileRef = 582196332A5E535B00D0ACF2 /* JBGenerateAudioRaw.m */; };
 		58DB96C82A58389C00CB4A8B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 58DB96C72A58389C00CB4A8B /* AppDelegate.m */; };
 		58DB96CB2A58389C00CB4A8B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58DB96CA2A58389C00CB4A8B /* ViewController.m */; };
@@ -18,6 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		58182E742A650F4700A4691A /* JBPlayMp3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JBPlayMp3.h; sourceTree = "<group>"; };
+		58182E752A650F4700A4691A /* JBPlayMp3.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JBPlayMp3.m; sourceTree = "<group>"; };
+		58182E792A6550A700A4691A /* G_E_M_ 邓紫棋 - 句号.flac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "G_E_M_ 邓紫棋 - 句号.flac"; sourceTree = "<group>"; };
 		582196322A5E535B00D0ACF2 /* JBGenerateAudioRaw.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JBGenerateAudioRaw.h; sourceTree = "<group>"; };
 		582196332A5E535B00D0ACF2 /* JBGenerateAudioRaw.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JBGenerateAudioRaw.m; sourceTree = "<group>"; };
 		58DB96C32A58389C00CB4A8B /* CoreAudioDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreAudioDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,8 +77,11 @@
 				582196322A5E535B00D0ACF2 /* JBGenerateAudioRaw.h */,
 				582196332A5E535B00D0ACF2 /* JBGenerateAudioRaw.m */,
 				58DB96DA2A583EED00CB4A8B /* JBCoreAudioMusicFile.m */,
+				58182E742A650F4700A4691A /* JBPlayMp3.h */,
+				58182E752A650F4700A4691A /* JBPlayMp3.m */,
 				58DB96DC2A58414500CB4A8B /* JBHelper.h */,
 				58DB96DD2A58414500CB4A8B /* JBHelper.m */,
+				58182E792A6550A700A4691A /* G_E_M_ 邓紫棋 - 句号.flac */,
 				58DB96CC2A58389D00CB4A8B /* Assets.xcassets */,
 				58DB96CE2A58389D00CB4A8B /* Main.storyboard */,
 				58DB96D12A58389D00CB4A8B /* main.m */,
@@ -156,6 +163,7 @@
 				58DB96CB2A58389C00CB4A8B /* ViewController.m in Sources */,
 				58DB96DB2A583EED00CB4A8B /* JBCoreAudioMusicFile.m in Sources */,
 				58DB96D22A58389D00CB4A8B /* main.m in Sources */,
+				58182E762A650F4700A4691A /* JBPlayMp3.m in Sources */,
 				582196342A5E535B00D0ACF2 /* JBGenerateAudioRaw.m in Sources */,
 				58DB96C82A58389C00CB4A8B /* AppDelegate.m in Sources */,
 			);

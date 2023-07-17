@@ -740,18 +740,18 @@
                                         </constraints>
                                         <buttonCell key="cell" type="radio" title="生成波形音频原始文件" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="iyb-bX-d6M">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                            <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                            <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="SmM-Bu-Bqj"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Zm3-0O-N3Y">
+                                    <button verticalHuggingPriority="750" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="Zm3-0O-N3Y">
                                         <rect key="frame" x="413" y="149" width="183" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Zm3-0O-N3Y" secondAttribute="height" multiplier="181:30" id="lCa-xd-iIn"/>
                                         </constraints>
-                                        <buttonCell key="cell" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="eSD-PY-Ssi">
+                                        <buttonCell key="cell" type="radio" title=" 播放MP3文件" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="eSD-PY-Ssi">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -759,7 +759,7 @@
                                             <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="1xJ-rh-heF"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tIa-UU-Jae">
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="tIa-UU-Jae">
                                         <rect key="frame" x="11" y="91" width="183" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="vLT-Fo-b0T">
@@ -770,7 +770,7 @@
                                             <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="aR1-md-YXQ"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OIr-dF-kWn">
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="5" translatesAutoresizingMaskIntoConstraints="NO" id="OIr-dF-kWn">
                                         <rect key="frame" x="216" y="91" width="183" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="d37-kS-SnV">
@@ -781,7 +781,7 @@
                                             <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="6pT-a9-AD6"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ERF-FI-3NJ">
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="7" translatesAutoresizingMaskIntoConstraints="NO" id="ERF-FI-3NJ">
                                         <rect key="frame" x="11" y="-1" width="183" height="82"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="xGe-fK-caL">
@@ -792,7 +792,7 @@
                                             <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="zDH-ZL-6Fm"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0rm-Ut-313">
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="6" translatesAutoresizingMaskIntoConstraints="NO" id="0rm-Ut-313">
                                         <rect key="frame" x="413" y="91" width="183" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="qTW-Mw-ncd">

@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#include <AVFoundation/AVFoundation.h>
 
 #include <TargetConditionals.h>
 
@@ -24,7 +24,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JBHelper : NSObject
-
++ (void)printASBD:(AudioStreamBasicDescription)ASBD;
 @end
 
 NS_ASSUME_NONNULL_END

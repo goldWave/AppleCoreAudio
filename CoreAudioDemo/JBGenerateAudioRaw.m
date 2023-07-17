@@ -98,7 +98,7 @@ SInt16 generateSawShapeSample(int i, double waveLengthInSamples) {
     return output;
 }
 
-
+// 通过 生成的 .aif 音频 文件，调用ffmpeg的命令将其，生成音频波形图
 - (void)gerneratePNGFile:(NSURL *)fileURL {
     NSString *outputPng = [fileURL.path stringByReplacingOccurrencesOfString:@".aif" withString:@"-p2p.png"];
     
@@ -119,6 +119,7 @@ SInt16 generateSawShapeSample(int i, double waveLengthInSamples) {
     NSLog(@"--输入音频波形图: %@", outputPng);
 }
 
+// 开始
 - (void)start {
     
     double hz = 440;
@@ -150,6 +151,7 @@ SInt16 generateSawShapeSample(int i, double waveLengthInSamples) {
                                                &audioFile);
     assert(status == noErr);
     
+    //生成5秒的样本数据
     long duration = 5.0;
     long maxSampleCount = desc.mSampleRate * duration;
     
@@ -164,25 +166,10 @@ SInt16 generateSawShapeSample(int i, double waveLengthInSamples) {
     
     NSLog(@"waveLengthInSample: %f", waveLengthInSample);
     
-//    //轮询填充样本
-//    while (sampleCount <= maxSampleCount) {
-//
-//        for(int i = 1; i <= waveLengthInSample; i++) {
-//            SInt16 sample = 0;
-//            sample = generateSineShapeSample(i, waveLengthInSample);
-//            sample = CFSwapInt16HostToBig(sample);
-//
-//            SInt64 offset = sampleCount * bytesToWrite;
-//            status = AudioFileWriteBytes(audioFile, false, offset, &bytesToWrite, &sample);
-//            assert(status == noErr);
-//
-//            sampleCount++;
-//        }
-//    }
-    
     //轮询填充样本
     while (sampleCount <= maxSampleCount) {
         
+        // 按照一个波一个波的循环填充
         for(int i = 1; i <= waveLengthInSample; i++) {
             
             SInt16 sample = 0;
@@ -194,7 +181,9 @@ SInt16 generateSawShapeSample(int i, double waveLengthInSamples) {
                 sample = generateSawShapeSample(i, waveLengthInSample);
             }
             
+            // 转换成大端模式
             sample = CFSwapInt16HostToBig(sample);
+            // 计算当前sample 在文件中的偏移量
             SInt64 offset = sampleCount * bytesToWrite;
             status = AudioFileWriteBytes(audioFile, false, offset, &bytesToWrite, &sample);
             assert(status == noErr);
