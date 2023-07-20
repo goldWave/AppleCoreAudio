@@ -716,6 +716,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="startClick:" target="XfG-lQ-9wD" id="zyf-lC-vfB"/>
+                                </connections>
                             </button>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="oRl-YW-9D1">
                                 <rect key="frame" x="0.0" y="170" width="616" height="200"/>
@@ -751,7 +754,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Zm3-0O-N3Y" secondAttribute="height" multiplier="181:30" id="lCa-xd-iIn"/>
                                         </constraints>
-                                        <buttonCell key="cell" type="radio" title=" 播放MP3文件" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="eSD-PY-Ssi">
+                                        <buttonCell key="cell" type="radio" title=" 播放本地音频文件" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="eSD-PY-Ssi">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -825,6 +828,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="stopClick:" target="XfG-lQ-9wD" id="maz-YU-LFg"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>
@@ -841,7 +847,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-12.5" y="708"/>
+            <point key="canvasLocation" x="-180" y="697"/>
         </scene>
     </scenes>
 </document>

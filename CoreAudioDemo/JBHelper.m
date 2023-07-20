@@ -7,6 +7,8 @@
 
 #import "JBHelper.h"
 
+NSString *const JBStopNotification = @"JBStopNotification";
+
 @implementation JBHelper
 
 + (void)print_ca_format:(UInt32)format_flags bits:(UInt32)bits

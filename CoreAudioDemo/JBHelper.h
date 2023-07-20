@@ -18,8 +18,11 @@
 
 #define printErr(logStr, status) \
     if (status != noErr) {\
-        NSLog(@"%@ 出现错误: %d(%s)", logStr, (int)status, FourCC2Str(status));\
+        NSLog(@"==== 出现错误: %@ code: %d(%s)", logStr, (int)status, FourCC2Str(status));\
     }
+
+
+extern  NSString * _Nonnull const JBStopNotification;
 
 NS_ASSUME_NONNULL_BEGIN
 

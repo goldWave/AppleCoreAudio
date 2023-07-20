@@ -1,5 +1,5 @@
 //
-//  JBPlayMp3.h
+//  JBPlayLocalMusicFile.h
 //  CoreAudioDemo
 //
 //  Created by jimbo on 2023/7/17.
@@ -9,9 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface JBPlayMp3 : NSObject
+@interface JBPlayLocalMusicFile : NSObject
++ (instancetype)sharedInstance;
 - (void)start;
-- (void)stop;
 @end
 
 NS_ASSUME_NONNULL_END

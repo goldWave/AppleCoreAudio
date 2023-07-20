@@ -1,121 +1,156 @@
 //
-//  JBPlayMp3.m
+//  JBPlayLocalMusicFile.m
 //  CoreAudioDemo
 //
 //  Created by jimbo on 2023/7/17.
 //
 
-#import "JBPlayMp3.h"
+#import "JBPlayLocalMusicFile.h"
 #include <AudioToolbox/AudioFile.h>
 #include "JBHelper.h"
 #include <AudioToolbox/AudioToolbox.h>
 
 //每个缓冲区0.5秒的数据量
 #define kBufferDurationInSeconds 0.5
-#define kNumberBufferSize 3
+//分配三个缓冲区
+#define kNumberBuffer 3
 
-@interface JBPlayMp3()
+@interface JBPlayLocalMusicFile()
 {
 @public
     AudioFileID _audioFile;
     AudioQueueRef _mQueue;
-    UInt32 _bufferByteSize; //缓冲区应有的字节数
-    UInt32 _numOfPacketsToRead; // 缓冲区应对应的数据包数量
-    AudioStreamPacketDescription *_aspds;
-    BOOL _isDone; //是否播放完毕
-    Float64 _packagePosition; //播放了多少
+    AudioStreamPacketDescription *_aspds; //从文件中读取的包秒数，每次读取后将其传入 AudioQueue中，以便能正确解码和播放
 }
 
-
 @property (nonatomic, assign) AudioStreamBasicDescription mASBD;
-
+@property (nonatomic, assign) BOOL isDone; //是否播放完毕
+@property (nonatomic, assign) UInt32 byteSizeInBuffer; //缓冲区应有的字节数（0.5秒内）
+@property (nonatomic, assign) UInt32 packetsNumInBuffer; // 缓冲区应对应的数据包数量（0.5秒内）
+@property (nonatomic, assign) Float64 readOffsetOfPackets; //读取了多少 packets
 @end
 
-@implementation JBPlayMp3
+@implementation JBPlayLocalMusicFile
+
++ (instancetype)sharedInstance {
+    static JBPlayLocalMusicFile *sharedSingleton = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^(void) {
+        sharedSingleton = [[self alloc] init];
+    });
+    return sharedSingleton;
+}
+
 - (instancetype)init {
     self = [super init];
     _aspds = NULL;
     _isDone = FALSE;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stop) name:JBStopNotification object:nil];
     return  self;
 }
+
 // 开始
 - (void)start {
     
     [self openAudioFile];
     [self getASBDInFile];
     
-    [self initAudioQueue];
-    [self getMetaDataWithFile];
+    //init audio queue by output param
+    OSStatus status = AudioQueueNewOutput(&_mASBD,
+                                          jbAudioQueueOutputCallback,
+                                          (__bridge void *)self,
+                                          NULL,
+                                          NULL,
+                                          0,
+                                          &_mQueue);
+    printErr(@"AudioQueueNewOutput", status);
+    //读取文件的magic cookie，然后设置到 Audio queue 里面去
+    [self setFileMetaDataToAudioQueue];
+    
+    //计算从文件读取包数据的，每次需要的大小 （0.5秒时间内）
     [self calculateSizeOfTime];
+    
+    //开辟 ASPD 数组内存
     [self allocPacketArray];
+    
+    //开辟Audio Queue的缓冲队列
     [self allocAudioQueue];
     
-    [self stop];
-    
-    NSLog(@"播放结束");
+    if (self.isDone) {
+        NSLog(@"使用完毕");
+        [self stop];
+        return;
+    }
+    status = AudioQueueStart(_mQueue, NULL);
+    printErr(@"AudioQueueStart", status);
 }
 
 - (void)stop {
-    AudioFileClose(_audioFile);
+    
+    OSStatus status = AudioQueueStop(_mQueue, true);
+    printErr(@"AudioQueueStop", status);
+    status = AudioQueueDispose(_mQueue, true);
+    printErr(@"AAudioQueueDispose", status);
+    if(_aspds) {
+        free(_aspds);
+    }
+    status = AudioFileClose(_audioFile);
+    printErr(@"AudioFileClose", status);
+    self.isDone = true;
+    NSLog(@"播放结束");
 }
 
 //打开 MP3 文件
 - (void)openAudioFile{
-    //    NSString *path = [[NSBundle mainBundle] pathForResource:@"周传雄 - 关不上的窗" ofType:@"mp3"];
-    //    NSURL *audioURL = [NSURL fileURLWithPath:path];
-    
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"周传雄 - 关不上的窗" ofType:@"mp3"];
-    NSURL *audioURL = [NSURL URLWithString:@"file:///Users/jimbo/Music/%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90/G_E_M_%20%E9%82%93%E7%B4%AB%E6%A3%8B%20-%20%E5%8F%A5%E5%8F%B7.flac"];
-    //    NSURL *audioURL = [NSURL fileURLWithPath:@"/Users/jimbo/Downloads/曾经我也想过一了百了(Live)-胡彦斌,李巍.128.mp3"];
-    
-    
+    NSURL *audioURL  = [[NSBundle mainBundle] URLForResource:@"G_E_M_ 邓紫棋 - 句号" withExtension:@"flac"];
     OSStatus status =  AudioFileOpenURL((__bridge  CFURLRef)audioURL, kAudioFileReadPermission, 0, &(_audioFile));
     printErr(@"AudioFileOpenURL", status);
 }
+
 static void jbAudioQueueOutputCallback(void * inUserData,
                                        AudioQueueRef inAQ, //对音频队列的引用
                                        AudioQueueBufferRef inBuffer //需要填充的缓冲区播放数据的引用
 ) {
     
-    JBPlayMp3 *playMp3 = (__bridge JBPlayMp3 *)inUserData;
-    if (playMp3->_isDone) {
+    JBPlayLocalMusicFile *playClass = (__bridge JBPlayLocalMusicFile *)inUserData;
+    if (playClass->_isDone) {
         return;
     }
     
     // 存在局部变量中后，read数据的时候会 自动更新读取到的值
-    UInt32 numberBytes = playMp3->_bufferByteSize;
-    UInt32 numberPackets = playMp3->_numOfPacketsToRead;
+    UInt32 numberBytes = playClass.byteSizeInBuffer;
+    UInt32 numberPackets = playClass.packetsNumInBuffer;
     
     //读取音频包内容，并在最后一个字段中将读取到的数据填充到 inBuffer 中去
-    OSStatus status = AudioFileReadPacketData(playMp3->_audioFile,
+    OSStatus status = AudioFileReadPacketData(playClass->_audioFile,
                                               false,
                                               &numberBytes,
-                                              playMp3->_aspds,
-                                              playMp3->_packagePosition,
+                                              playClass->_aspds,
+                                              playClass.readOffsetOfPackets,
                                               &numberPackets,
                                               inBuffer->mAudioData);
     printErr(@"AudioFileReadPacketData", status);
     if (numberBytes <= 0 || numberPackets <= 0) {
         NSLog(@"数据读取完毕");
-        playMp3->_isDone = true;
+        playClass->_isDone = true;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [playClass stop];
+        });
         return;
     }
     
     inBuffer->mAudioDataByteSize = numberBytes;
     AudioQueueEnqueueBuffer(inAQ,
                             inBuffer,
-                            (playMp3->_aspds ? numberPackets : 0),
-                            playMp3->_aspds);
+                            (playClass->_aspds ? numberPackets : 0),
+                            playClass->_aspds);
     //消费完后，更新下次需要读取的文件的位置
-    playMp3->_packagePosition += numberBytes;
-    
-    
-    return;
+    playClass.readOffsetOfPackets += numberPackets;
 }
 
 - (void)getASBDInFile {
     /***
-     mp3 文件格式， 和PCM 有点差别
+     mp3 flac 文件格式， 和PCM 有点差别
      2023-07-17 14:30:13.246099+0800 CoreAudioDemo[91195:21837824] planar:0 bitsPerchannel:0
      2023-07-17 14:30:13.246155+0800 CoreAudioDemo[91195:21837824]
      ASBD:
@@ -137,27 +172,19 @@ static void jbAudioQueueOutputCallback(void * inUserData,
     self.mASBD = asbd;
 }
 
--  (void)initAudioQueue {
-    
-    OSStatus status = AudioQueueNewOutput(&_mASBD,
-                                          jbAudioQueueOutputCallback,
-                                          (__bridge void *)self,
-                                          NULL,
-                                          NULL,
-                                          0,
-                                          &_mQueue);
-    printErr(@"AudioQueueNewOutput", status);
-    
-}
-
-// 测试MP3 不行，获取不到 magic data
-- (void)getMetaDataWithFile{
+// MP3获取不到 magic data
+- (void)setFileMetaDataToAudioQueue{
     //    //先获取长度
     UInt32 cookieDataSize = 0;
     UInt32 isWriteAble = 0;
     //注意这里是AudioFileGetPropertyInfo
     OSStatus status = AudioFileGetPropertyInfo(_audioFile, kAudioFilePropertyMagicCookieData, &cookieDataSize, &isWriteAble);
-    printErr(@"AudioFileGetPropertyInfo kAudioFilePropertyMagicCookieData", status);
+    
+    //有些没有 magic cookie ，所以不管
+    if (status != noErr) {
+        NSLog(@"magic cookie 不存在，忽略掉");
+        return;
+    }
     
     if (cookieDataSize <= 0) {
         NSLog(@"AudioFileGetPropertyInfo kAudioFilePropertyMagicCookieData get zero size data");
@@ -170,23 +197,12 @@ static void jbAudioQueueOutputCallback(void * inUserData,
     status = AudioFileGetProperty(_audioFile, kAudioFilePropertyMagicCookieData, &cookieDataSize, cookieData);
     printErr(@"AudioFileGetProperty kAudioFilePropertyMagicCookieData", status);
     
-    NSLog(@"---magic data size: %i: data: %s", cookieDataSize ,cookieData);
-    
     status = AudioQueueSetProperty(_mQueue, kAudioQueueProperty_MagicCookie, cookieData, cookieDataSize);
     printErr(@"AudioQueueSetProperty kAudioQueueProperty_MagicCookie", status);
     free(cookieData);
 }
 
 - (void)calculateSizeOfTime{
-    
-    UInt32 packetSizeUpperBound = 0;
-    UInt32 packetSizeUpperBoundSize = sizeof(packetSizeUpperBound);
-    // 获取 计算出来的 理论上的 最大 package 大小。非读取文件
-    OSStatus status = AudioFileGetProperty(_audioFile,
-                                           kAudioFilePropertyPacketSizeUpperBound,
-                                           &packetSizeUpperBoundSize,
-                                           &packetSizeUpperBound);
-    printErr(@"AudioFileGetProperty kAudioFilePropertyPacketSizeUpperBound", status);
     
     //获取kBufferDurationInSeconds时间的包的数量
     UInt32 totalNumerOfPackets = 0;
@@ -201,12 +217,21 @@ static void jbAudioQueueOutputCallback(void * inUserData,
         totalNumerOfPackets = 1;
     }
     
+    UInt32 packetSizeUpperBound = 0;
+    UInt32 packetSizeUpperBoundSize = sizeof(packetSizeUpperBound);
+    // 获取 计算出来的 理论上的 最大 package 大小。非读取文件
+    OSStatus status = AudioFileGetProperty(_audioFile,
+                                           kAudioFilePropertyPacketSizeUpperBound,
+                                           &packetSizeUpperBoundSize,
+                                           &packetSizeUpperBound);
+    printErr(@"AudioFileGetProperty kAudioFilePropertyPacketSizeUpperBound", status);
+    
     if (_mASBD.mBytesPerPacket > 0) {
         //设置具体值
-        _bufferByteSize = self.mASBD.mBytesPerPacket * totalNumerOfPackets;
+        self.byteSizeInBuffer = self.mASBD.mBytesPerPacket * totalNumerOfPackets;
     } else {
         // 获取理论上最大值
-        _bufferByteSize = packetSizeUpperBound * totalNumerOfPackets;
+        self.byteSizeInBuffer = packetSizeUpperBound * totalNumerOfPackets;
     }
     
     //定义一个最大值，以避免 RAM 消耗过大
@@ -214,15 +239,14 @@ static void jbAudioQueueOutputCallback(void * inUserData,
     const int maxBufferSize = 0x100000; // 128KB
     const int minBufferSize = 0x4000;  // 16KB
     //调整成一个中间的适合的值
-    if(_bufferByteSize > maxBufferSize) {
-        _bufferByteSize = maxBufferSize;
-    } else if (_bufferByteSize < minBufferSize) {
-        _bufferByteSize = minBufferSize;
+    if(self.byteSizeInBuffer > maxBufferSize) {
+        self.byteSizeInBuffer = maxBufferSize;
+    } else if (self.byteSizeInBuffer < minBufferSize) {
+        self.byteSizeInBuffer = minBufferSize;
     }
     
-    //调整后重新计算大小
-    _numOfPacketsToRead = _bufferByteSize / packetSizeUpperBound;
-    
+    //调整后重新计算大小， 这样可能多分配内存，但至少不会内存越界
+    self.packetsNumInBuffer = self.byteSizeInBuffer / packetSizeUpperBound;
 }
 
 
@@ -235,38 +259,30 @@ static void jbAudioQueueOutputCallback(void * inUserData,
 - (void)allocPacketArray {
     BOOL isVBR_or_CBRWithUneualChannelSizes = _mASBD.mBytesPerPacket == 0 || _mASBD.mFramesPerPacket == 0;
     if(isVBR_or_CBRWithUneualChannelSizes) {
-        UInt32 size = sizeof(AudioStreamBasicDescription) * _numOfPacketsToRead;
-        _aspds = (AudioStreamPacketDescription *)malloc(size);
+        _aspds = (AudioStreamPacketDescription *)calloc(sizeof(AudioStreamBasicDescription), _packetsNumInBuffer);
     } else {
         _aspds = NULL;
     }
 }
 
 - (void)allocAudioQueue {
-    AudioQueueBufferRef buffers[kNumberBufferSize];
+    AudioQueueBufferRef buffers[kNumberBuffer];
     
     OSStatus status = noErr;
-    for(int i = 0 ; i< kNumberBufferSize; i++) {
+    for(int i = 0 ; i< kNumberBuffer; i++) {
         status = AudioQueueAllocateBuffer(_mQueue,
-                                          _numOfPacketsToRead,
+                                          self.byteSizeInBuffer,
                                           &buffers[i]);
         printErr(@"AudioQueueAllocateBuffer", status);
         
-        //手动调用回调， 用音频文件中的音频数据填充缓冲区。
+        //手动调用回调，用音频文件中的音频数据填充缓冲区。
+        //后续调用AudioQueueStart后，会自动触发回调进行调用
         jbAudioQueueOutputCallback((__bridge  void *)self, _mQueue, buffers[i]);
-        if (_isDone) {
+        if (self.isDone) {
             //回调函数中设置为true后，代表剩余时间小于1.5秒
             break;
         }
     }
-    if (_isDone) {
-        NSLog(@"使用完毕");
-        return;
-    }
-    
-    status = AudioQueueStart(_mQueue, NULL);
-    printErr(@"AudioQueueStart", status);
-    
 }
 
 @end

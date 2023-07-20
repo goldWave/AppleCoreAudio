@@ -9,7 +9,7 @@
 #import "JBCoreAudioMusicFile.h"
 #import "JBGenerateAudioRaw.h"
 #import <CoreAudio/CoreAudio.h>
-#import "JBPlayMp3.h"
+#import "JBPlayLocalMusicFile.h"
 
 typedef NS_ENUM(NSInteger, JBAudioType) {
     JBAudioType_None = 0,
@@ -45,16 +45,20 @@ typedef NS_ENUM(NSInteger, JBAudioType) {
             [[[JBGenerateAudioRaw alloc] init] start];
             break;
         case JBAudioType_Play_Mp3: {
-            // 播放MP3
-            JBPlayMp3 *playMp3 =   [[JBPlayMp3 alloc] init];
-            [playMp3 start];
-            [playMp3 stop];
+            [[JBPlayLocalMusicFile sharedInstance] start];
         }
             break;
         default:
             break;
     }
     
+}
+
+- (IBAction)startClick:(id)sender {
+}
+
+- (IBAction)stopClick:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:JBStopNotification object:nil];
 }
 
 
