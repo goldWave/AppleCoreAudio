@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		58182E762A650F4700A4691A /* JBPlayLocalMusicFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 58182E752A650F4700A4691A /* JBPlayLocalMusicFile.m */; };
-		582196342A5E535B00D0ACF2 /* JBGenerateAudioRaw.m in Sources */ = {isa = PBXBuildFile; fileRef = 582196332A5E535B00D0ACF2 /* JBGenerateAudioRaw.m */; };
-		5860A1672A67D61300ED2707 /* G_E_M_ 邓紫棋 - 句号.flac in Resources */ = {isa = PBXBuildFile; fileRef = 58182E792A6550A700A4691A /* G_E_M_ 邓紫棋 - 句号.flac */; };
+		5860A1732A6A5E3F00ED2707 /* JBGenerateAudioRaw.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860A16E2A6A5E3F00ED2707 /* JBGenerateAudioRaw.m */; };
+		5860A1742A6A5E3F00ED2707 /* JBPlayLocalMusicFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860A16F2A6A5E3F00ED2707 /* JBPlayLocalMusicFile.m */; };
+		5860A1752A6A5E3F00ED2707 /* JBMusicFileCionvertToPCMFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860A1712A6A5E3F00ED2707 /* JBMusicFileCionvertToPCMFile.m */; };
+		5860A1772A6A5E4E00ED2707 /* G_E_M_ 邓紫棋 - 句号.flac in Resources */ = {isa = PBXBuildFile; fileRef = 5860A1762A6A5E4E00ED2707 /* G_E_M_ 邓紫棋 - 句号.flac */; };
 		58DB96C82A58389C00CB4A8B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 58DB96C72A58389C00CB4A8B /* AppDelegate.m */; };
 		58DB96CB2A58389C00CB4A8B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58DB96CA2A58389C00CB4A8B /* ViewController.m */; };
 		58DB96CD2A58389D00CB4A8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58DB96CC2A58389D00CB4A8B /* Assets.xcassets */; };
@@ -20,11 +21,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		58182E742A650F4700A4691A /* JBPlayLocalMusicFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JBPlayLocalMusicFile.h; sourceTree = "<group>"; };
-		58182E752A650F4700A4691A /* JBPlayLocalMusicFile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JBPlayLocalMusicFile.m; sourceTree = "<group>"; };
-		58182E792A6550A700A4691A /* G_E_M_ 邓紫棋 - 句号.flac */ = {isa = PBXFileReference; lastKnownFileType = file; path = "G_E_M_ 邓紫棋 - 句号.flac"; sourceTree = "<group>"; };
-		582196322A5E535B00D0ACF2 /* JBGenerateAudioRaw.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JBGenerateAudioRaw.h; sourceTree = "<group>"; };
-		582196332A5E535B00D0ACF2 /* JBGenerateAudioRaw.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JBGenerateAudioRaw.m; sourceTree = "<group>"; };
+		5860A16D2A6A5E3F00ED2707 /* JBMusicFileCionvertToPCMFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBMusicFileCionvertToPCMFile.h; sourceTree = "<group>"; };
+		5860A16E2A6A5E3F00ED2707 /* JBGenerateAudioRaw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBGenerateAudioRaw.m; sourceTree = "<group>"; };
+		5860A16F2A6A5E3F00ED2707 /* JBPlayLocalMusicFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPlayLocalMusicFile.m; sourceTree = "<group>"; };
+		5860A1702A6A5E3F00ED2707 /* JBGenerateAudioRaw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBGenerateAudioRaw.h; sourceTree = "<group>"; };
+		5860A1712A6A5E3F00ED2707 /* JBMusicFileCionvertToPCMFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBMusicFileCionvertToPCMFile.m; sourceTree = "<group>"; };
+		5860A1722A6A5E3F00ED2707 /* JBPlayLocalMusicFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPlayLocalMusicFile.h; sourceTree = "<group>"; };
+		5860A1762A6A5E4E00ED2707 /* G_E_M_ 邓紫棋 - 句号.flac */ = {isa = PBXFileReference; lastKnownFileType = file; name = "G_E_M_ 邓紫棋 - 句号.flac"; path = "resource/G_E_M_ 邓紫棋 - 句号.flac"; sourceTree = "<group>"; };
 		58DB96C32A58389C00CB4A8B /* CoreAudioDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreAudioDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58DB96C62A58389C00CB4A8B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		58DB96C72A58389C00CB4A8B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -51,6 +54,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5860A16C2A6A5E3F00ED2707 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				5860A16D2A6A5E3F00ED2707 /* JBMusicFileCionvertToPCMFile.h */,
+				5860A16E2A6A5E3F00ED2707 /* JBGenerateAudioRaw.m */,
+				5860A16F2A6A5E3F00ED2707 /* JBPlayLocalMusicFile.m */,
+				5860A1702A6A5E3F00ED2707 /* JBGenerateAudioRaw.h */,
+				5860A1712A6A5E3F00ED2707 /* JBMusicFileCionvertToPCMFile.m */,
+				5860A1722A6A5E3F00ED2707 /* JBPlayLocalMusicFile.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		58DB96BA2A58389B00CB4A8B = {
 			isa = PBXGroup;
 			children = (
@@ -70,20 +86,17 @@
 		58DB96C52A58389C00CB4A8B /* CoreAudioDemo */ = {
 			isa = PBXGroup;
 			children = (
+				5860A16C2A6A5E3F00ED2707 /* src */,
 				58DB96C62A58389C00CB4A8B /* AppDelegate.h */,
 				58DB96C72A58389C00CB4A8B /* AppDelegate.m */,
 				58DB96C92A58389C00CB4A8B /* ViewController.h */,
 				58DB96CA2A58389C00CB4A8B /* ViewController.m */,
 				58DB96D92A583EED00CB4A8B /* JBCoreAudioMusicFile.h */,
-				582196322A5E535B00D0ACF2 /* JBGenerateAudioRaw.h */,
-				582196332A5E535B00D0ACF2 /* JBGenerateAudioRaw.m */,
 				58DB96DA2A583EED00CB4A8B /* JBCoreAudioMusicFile.m */,
-				58182E742A650F4700A4691A /* JBPlayLocalMusicFile.h */,
-				58182E752A650F4700A4691A /* JBPlayLocalMusicFile.m */,
 				58DB96DC2A58414500CB4A8B /* JBHelper.h */,
 				58DB96DD2A58414500CB4A8B /* JBHelper.m */,
-				58182E792A6550A700A4691A /* G_E_M_ 邓紫棋 - 句号.flac */,
 				58DB96CC2A58389D00CB4A8B /* Assets.xcassets */,
+				5860A1762A6A5E4E00ED2707 /* G_E_M_ 邓紫棋 - 句号.flac */,
 				58DB96CE2A58389D00CB4A8B /* Main.storyboard */,
 				58DB96D12A58389D00CB4A8B /* main.m */,
 				58DB96D32A58389D00CB4A8B /* CoreAudioDemo.entitlements */,
@@ -149,7 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				58DB96CD2A58389D00CB4A8B /* Assets.xcassets in Resources */,
-				5860A1672A67D61300ED2707 /* G_E_M_ 邓紫棋 - 句号.flac in Resources */,
+				5860A1772A6A5E4E00ED2707 /* G_E_M_ 邓紫棋 - 句号.flac in Resources */,
 				58DB96D02A58389D00CB4A8B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -161,12 +174,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5860A1742A6A5E3F00ED2707 /* JBPlayLocalMusicFile.m in Sources */,
 				58DB96DE2A58414500CB4A8B /* JBHelper.m in Sources */,
 				58DB96CB2A58389C00CB4A8B /* ViewController.m in Sources */,
+				5860A1752A6A5E3F00ED2707 /* JBMusicFileCionvertToPCMFile.m in Sources */,
 				58DB96DB2A583EED00CB4A8B /* JBCoreAudioMusicFile.m in Sources */,
 				58DB96D22A58389D00CB4A8B /* main.m in Sources */,
-				58182E762A650F4700A4691A /* JBPlayLocalMusicFile.m in Sources */,
-				582196342A5E535B00D0ACF2 /* JBGenerateAudioRaw.m in Sources */,
+				5860A1732A6A5E3F00ED2707 /* JBGenerateAudioRaw.m in Sources */,
 				58DB96C82A58389C00CB4A8B /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
