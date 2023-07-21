@@ -44,14 +44,17 @@
 - (instancetype)init {
     self = [super init];
     _aspds = NULL;
-    _isDone = FALSE;
+    _isDone = true;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stop) name:JBStopNotification object:nil];
     return  self;
 }
 
 // 开始
 - (void)start {
-    
+    if (!self.isDone) {
+        //播放中
+        return;
+    }
     [self openAudioFile];
     [self getASBDInFile];
     
@@ -151,9 +154,13 @@ static void jbAudioQueueOutputCallback(void * inUserData,
 - (void)getASBDInFile {
     /***
      mp3 flac 文件格式， 和PCM 有点差别
-     2023-07-20 17:11:50.009243+0800 CoreAudioDemo[39892:4214374] planar:0 bitsPerchannel:0
-     2023-07-20 17:11:50.010224+0800 CoreAudioDemo[39892:4214374] kAudioFormatFlagIsFloat
-     2023-07-20 17:11:50.010619+0800 CoreAudioDemo[39892:4214374]
+     2023-07-21 14:54:49.042644+0800 CoreAudioDemo[2536:5829281] planar:false bitsPerchannel:0
+     2023-07-21 14:54:49.042694+0800 CoreAudioDemo[2536:5829281] flags:
+         kAppleLosslessFormatFlag_16BitSourceData
+         kAppleLosslessFormatFlag_24BitSourceData
+         kAudioFormatFlagIsFloat
+         kLinearPCMFormatFlagsSampleFractionShift
+     2023-07-21 14:54:49.042731+0800 CoreAudioDemo[2536:5829281]
      ASBD:
          mSampleRate = 44100
          mFormatID = 1718378851(flac)

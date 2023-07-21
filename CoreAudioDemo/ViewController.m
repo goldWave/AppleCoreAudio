@@ -15,13 +15,19 @@ typedef NS_ENUM(NSInteger, JBAudioType) {
     JBAudioType_None = 0,
     JBAudioType_Read_File,
     JBAudioType_Generate_Raw_data,
-    JBAudioType_Play_Mp3,
+    JBAudioType_Play_Music,
 };
+
+@interface ViewController()
+
+@property (nonatomic, assign) JBAudioType selectType;
+
+@end
 
 @implementation ViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.selectType = JBAudioType_None;
     // Do any additional setup after loading the view.
 }
 
@@ -33,9 +39,11 @@ typedef NS_ENUM(NSInteger, JBAudioType) {
 }
 
 - (IBAction)radioBtnClick:(NSButton *)sender {
-    JBAudioType seletctTag = (JBAudioType)sender.tag;
-    
-    switch (seletctTag) {
+    self.selectType = (JBAudioType)sender.tag;
+}
+
+- (IBAction)startClick:(id)sender {
+    switch (self.selectType) {
         case JBAudioType_Read_File:
             // 打印 音频 文件的metadata 和 流信息
             [[[JBCoreAudioMusicFile alloc] init] start];
@@ -44,17 +52,14 @@ typedef NS_ENUM(NSInteger, JBAudioType) {
             // 生成 原始的 波形图的 raw data 的音频数据
             [[[JBGenerateAudioRaw alloc] init] start];
             break;
-        case JBAudioType_Play_Mp3: {
+        case JBAudioType_Play_Music: {
+            // 播放本地音频文件
             [[JBPlayLocalMusicFile sharedInstance] start];
         }
             break;
         default:
             break;
     }
-    
-}
-
-- (IBAction)startClick:(id)sender {
 }
 
 - (IBAction)stopClick:(id)sender {

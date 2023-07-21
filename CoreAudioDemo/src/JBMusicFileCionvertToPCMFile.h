@@ -10,7 +10,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JBMusicFileCionvertToPCMFile : NSObject
-
++ (instancetype)sharedInstance;
+- (void)start;
 @end
 
 NS_ASSUME_NONNULL_END

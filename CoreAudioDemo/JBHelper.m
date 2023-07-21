@@ -13,25 +13,34 @@ NSString *const JBStopNotification = @"JBStopNotification";
 
 + (void)print_ca_format:(UInt32)format_flags bits:(UInt32)bits
 {
-    bool planar = (format_flags & kAudioFormatFlagIsNonInterleaved) != 0;
-    NSLog(@"planar:%d bitsPerchannel:%d", planar, bits);
-    if (format_flags & kAudioFormatFlagIsFloat)
-        NSLog(@"kAudioFormatFlagIsFloat");
+    static NSDictionary *flags = @{
+        @"kAudioFormatFlagIsFloat"                  : @(kAudioFormatFlagIsFloat),
+        @"kAudioFormatFlagIsBigEndian"              : @(kAudioFormatFlagIsBigEndian),
+        @"kAudioFormatFlagIsSignedInteger"          : @(kAudioFormatFlagIsSignedInteger),
+        @"kAudioFormatFlagIsPacked"                 : @(kAudioFormatFlagIsPacked),
+        @"kAudioFormatFlagIsAlignedHigh"            : @(kAudioFormatFlagIsAlignedHigh),
+        @"kAudioFormatFlagIsNonInterleaved"         : @(kAudioFormatFlagIsNonInterleaved),
+        @"kAudioFormatFlagIsNonMixable"             : @(kAudioFormatFlagIsNonMixable),
+        @"kAudioFormatFlagsAreAllClear"             : @(kAudioFormatFlagsAreAllClear),
+        @"kLinearPCMFormatFlagsSampleFractionShift" : @(kLinearPCMFormatFlagsSampleFractionShift),
+        @"kLinearPCMFormatFlagsSampleFractionMask"  : @(kLinearPCMFormatFlagsSampleFractionMask),
+        @"kAppleLosslessFormatFlag_16BitSourceData" : @(kAppleLosslessFormatFlag_16BitSourceData),
+        @"kAppleLosslessFormatFlag_20BitSourceData" : @(kAppleLosslessFormatFlag_20BitSourceData),
+        @"kAppleLosslessFormatFlag_24BitSourceData" : @(kAppleLosslessFormatFlag_24BitSourceData),
+        @"kAppleLosslessFormatFlag_32BitSourceData" : @(kAppleLosslessFormatFlag_32BitSourceData)
+    };
     
-    if (format_flags & kAudioFormatFlagIsBigEndian)
-        NSLog(@"kAudioFormatFlagIsBigEndian");
+    NSMutableArray *arrs = @[].mutableCopy;
+    for (NSString *key in flags) {
+        int flagValue =  [flags[key] intValue];
+        if ((flagValue & format_flags) == flagValue) {
+            [arrs addObject:key];
+        }
+    }
     
-    if (format_flags & kAudioFormatFlagIsSignedInteger)
-        NSLog(@"kAudioFormatFlagIsSignedInteger");
-    if (format_flags & kAudioFormatFlagIsPacked)
-        NSLog(@"kAudioFormatFlagIsPacked");
-    if (format_flags & kAudioFormatFlagIsAlignedHigh)
-        NSLog(@"kAudioFormatFlagIsAlignedHigh");
-    if (format_flags & kAudioFormatFlagIsNonInterleaved)
-        NSLog(@"kAudioFormatFlagIsNonInterleaved");
-    if (format_flags & kAudioFormatFlagIsNonMixable)
-        NSLog(@"kAudioFormatFlagIsNonMixable");
-    
+    bool planar = (format_flags & kAudioFormatFlagIsNonInterleaved) == format_flags;
+    NSLog(@"planar:%s bitsPerchannel:%d", planar ? "true" : "false", bits);
+    NSLog(@"flags: \n\t%@", [arrs componentsJoinedByString:@"\n\t"]);
     return ;
 }
 + (void)printASBD:(AudioStreamBasicDescription)ASBD {

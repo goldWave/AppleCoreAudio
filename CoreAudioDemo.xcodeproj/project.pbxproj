@@ -57,12 +57,12 @@
 		5860A16C2A6A5E3F00ED2707 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				5860A16D2A6A5E3F00ED2707 /* JBMusicFileCionvertToPCMFile.h */,
-				5860A16E2A6A5E3F00ED2707 /* JBGenerateAudioRaw.m */,
-				5860A16F2A6A5E3F00ED2707 /* JBPlayLocalMusicFile.m */,
 				5860A1702A6A5E3F00ED2707 /* JBGenerateAudioRaw.h */,
+				5860A16E2A6A5E3F00ED2707 /* JBGenerateAudioRaw.m */,
+				5860A16D2A6A5E3F00ED2707 /* JBMusicFileCionvertToPCMFile.h */,
 				5860A1712A6A5E3F00ED2707 /* JBMusicFileCionvertToPCMFile.m */,
 				5860A1722A6A5E3F00ED2707 /* JBPlayLocalMusicFile.h */,
+				5860A16F2A6A5E3F00ED2707 /* JBPlayLocalMusicFile.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
