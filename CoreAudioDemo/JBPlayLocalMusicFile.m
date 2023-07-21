@@ -100,7 +100,7 @@
     NSLog(@"播放结束");
 }
 
-//打开 MP3 文件
+//打开 音频 文件
 - (void)openAudioFile{
     NSURL *audioURL  = [[NSBundle mainBundle] URLForResource:@"G_E_M_ 邓紫棋 - 句号" withExtension:@"flac"];
     OSStatus status =  AudioFileOpenURL((__bridge  CFURLRef)audioURL, kAudioFileReadPermission, 0, &(_audioFile));
@@ -151,18 +151,19 @@ static void jbAudioQueueOutputCallback(void * inUserData,
 - (void)getASBDInFile {
     /***
      mp3 flac 文件格式， 和PCM 有点差别
-     2023-07-17 14:30:13.246099+0800 CoreAudioDemo[91195:21837824] planar:0 bitsPerchannel:0
-     2023-07-17 14:30:13.246155+0800 CoreAudioDemo[91195:21837824]
+     2023-07-20 17:11:50.009243+0800 CoreAudioDemo[39892:4214374] planar:0 bitsPerchannel:0
+     2023-07-20 17:11:50.010224+0800 CoreAudioDemo[39892:4214374] kAudioFormatFlagIsFloat
+     2023-07-20 17:11:50.010619+0800 CoreAudioDemo[39892:4214374]
      ASBD:
-     mSampleRate = 44100
-     mFormatID = 778924083
-     mFormatFlags = 0
-     mBytesPerPacket = 0
-     mFramesPerPacket = 1152
-     mBytesPerFrame = 0
-     mChannelsPerFrame = 2
-     mBitsPerChannel = 0
-     mReserved = 0
+         mSampleRate = 44100
+         mFormatID = 1718378851(flac)
+         mFormatFlags = 1
+         mBytesPerPacket = 0
+         mFramesPerPacket = 4096
+         mBytesPerFrame = 0
+         mChannelsPerFrame = 2
+         mBitsPerChannel = 0
+         mReserved = 0
      */
     AudioStreamBasicDescription asbd;
     UInt32 asbdSize = sizeof(asbd);
@@ -172,12 +173,12 @@ static void jbAudioQueueOutputCallback(void * inUserData,
     self.mASBD = asbd;
 }
 
-// MP3获取不到 magic data
+// MP3获取不到 magic cookie
 - (void)setFileMetaDataToAudioQueue{
-    //    //先获取长度
+    //先获取长度
     UInt32 cookieDataSize = 0;
     UInt32 isWriteAble = 0;
-    //注意这里是AudioFileGetPropertyInfo
+    //注意这里是AudioFileGetPropertyInfo， 获取长度和是否可以写
     OSStatus status = AudioFileGetPropertyInfo(_audioFile, kAudioFilePropertyMagicCookieData, &cookieDataSize, &isWriteAble);
     
     //有些没有 magic cookie ，所以不管
@@ -197,8 +198,11 @@ static void jbAudioQueueOutputCallback(void * inUserData,
     status = AudioFileGetProperty(_audioFile, kAudioFilePropertyMagicCookieData, &cookieDataSize, cookieData);
     printErr(@"AudioFileGetProperty kAudioFilePropertyMagicCookieData", status);
     
+    //将获取的MagicCookie 设置到 AudioQueue 中
     status = AudioQueueSetProperty(_mQueue, kAudioQueueProperty_MagicCookie, cookieData, cookieDataSize);
     printErr(@"AudioQueueSetProperty kAudioQueueProperty_MagicCookie", status);
+    
+    // malloc 后必须 free
     free(cookieData);
 }
 
@@ -257,9 +261,9 @@ static void jbAudioQueueOutputCallback(void * inUserData,
  这些描述将在处理音频文件并将其数据包读入缓冲区时填充。
  */
 - (void)allocPacketArray {
-    BOOL isVBR_or_CBRWithUneualChannelSizes = _mASBD.mBytesPerPacket == 0 || _mASBD.mFramesPerPacket == 0;
-    if(isVBR_or_CBRWithUneualChannelSizes) {
-        _aspds = (AudioStreamPacketDescription *)calloc(sizeof(AudioStreamBasicDescription), _packetsNumInBuffer);
+    BOOL isNeedASPD = _mASBD.mBytesPerPacket == 0 || _mASBD.mFramesPerPacket == 0;
+    if(isNeedASPD) {
+        _aspds = (AudioStreamPacketDescription *)calloc(sizeof(AudioStreamPacketDescription), _packetsNumInBuffer);
     } else {
         _aspds = NULL;
     }
