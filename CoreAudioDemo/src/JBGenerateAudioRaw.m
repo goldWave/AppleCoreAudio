@@ -8,37 +8,16 @@
 #import "JBGenerateAudioRaw.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <MacTypes.h>
+#import "JBHelper.h"
 
 
 #define MY_SHAPE @"sine" //sine square saw
 
 @implementation JBGenerateAudioRaw
 
-//创建临时路径
 - (NSURL *)getFile:(double)hz shape:(NSString *)shape {
     NSString* fileName = [NSString stringWithFormat:@"%0.3f-%@.aif", hz, shape];
-
-    NSString *path = nil;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(
-        NSCachesDirectory, NSUserDomainMask, YES);
-    if ([paths count])
-    {
-        NSString *bundleName =
-            [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"];
-        path = [[paths objectAtIndex:0] stringByAppendingPathComponent:bundleName];
-    }
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-       BOOL isSuccess = [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
-        if (!isSuccess) {
-            NSLog(@"create SnipFolder rootPath failed!");
-        }
-    }
-    
-    
-    path =  [path stringByAppendingPathComponent:fileName];
-
-    return [NSURL fileURLWithPath:path];
+    return [JBHelper getOutputPathWithFile:fileName];
 }
 
 // 正弦波

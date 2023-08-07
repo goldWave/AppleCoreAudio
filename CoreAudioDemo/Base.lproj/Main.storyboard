@@ -707,10 +707,10 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="616" height="370"/>
+                        <rect key="frame" x="0.0" y="0.0" width="742" height="370"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y9F-9I-v0x">
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y9F-9I-v0x">
                                 <rect key="frame" x="13" y="46" width="63" height="32"/>
                                 <buttonCell key="cell" type="push" title="start" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="56f-99-o0s">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -721,14 +721,14 @@
                                 </connections>
                             </button>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="oRl-YW-9D1">
-                                <rect key="frame" x="0.0" y="170" width="616" height="200"/>
+                                <rect key="frame" x="0.0" y="170" width="742" height="200"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="GGK-vq-anP">
-                                        <rect key="frame" x="11" y="149" width="183" height="32"/>
+                                        <rect key="frame" x="11" y="142" width="225" height="39"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="GGK-vq-anP" secondAttribute="height" multiplier="181:30" id="zev-U0-if1"/>
                                         </constraints>
-                                        <buttonCell key="cell" type="radio" title="core audiio 获取MP3 信息" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="exm-od-9rF">
+                                        <buttonCell key="cell" type="radio" title="core audiio 获取MP3 信息" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="exm-od-9rF">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -737,7 +737,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="Ay7-qs-hen">
-                                        <rect key="frame" x="212" y="149" width="183" height="32"/>
+                                        <rect key="frame" x="254" y="142" width="225" height="39"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Ay7-qs-hen" secondAttribute="height" multiplier="181:30" id="0XO-X7-JrX"/>
                                         </constraints>
@@ -750,7 +750,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="Zm3-0O-N3Y">
-                                        <rect key="frame" x="413" y="149" width="183" height="32"/>
+                                        <rect key="frame" x="497" y="142" width="225" height="39"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Zm3-0O-N3Y" secondAttribute="height" multiplier="181:30" id="lCa-xd-iIn"/>
                                         </constraints>
@@ -762,31 +762,34 @@
                                             <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="1xJ-rh-heF"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="tIa-UU-Jae">
-                                        <rect key="frame" x="11" y="91" width="183" height="32"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="vLT-Fo-b0T">
+                                    <button verticalHuggingPriority="750" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="tIa-UU-Jae">
+                                        <rect key="frame" x="11" y="99" width="225" height="17"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="tIa-UU-Jae" secondAttribute="height" multiplier="15:1" id="oGZ-v5-lkm"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="radio" title="本地flac音频文件转换成PCM文件" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="vLT-Fo-b0T">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" size="13" name=".PingFangSC-Regular"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="aR1-md-YXQ"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="5" translatesAutoresizingMaskIntoConstraints="NO" id="OIr-dF-kWn">
-                                        <rect key="frame" x="216" y="91" width="183" height="32"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="d37-kS-SnV">
+                                    <button verticalHuggingPriority="750" tag="5" translatesAutoresizingMaskIntoConstraints="NO" id="OIr-dF-kWn">
+                                        <rect key="frame" x="254" y="88" width="225" height="39"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="OIr-dF-kWn" secondAttribute="height" multiplier="181:30" id="bVp-Ha-KJh"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="radio" title="本地PCM文件 转换成 flac" alternateTitle="本地PCM文件 转换成 flac" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="d37-kS-SnV">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="system"/>
+                                            <font key="font" size="13" name=".PingFangSC-Regular"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="6pT-a9-AD6"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="7" translatesAutoresizingMaskIntoConstraints="NO" id="ERF-FI-3NJ">
-                                        <rect key="frame" x="11" y="-1" width="183" height="82"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <button verticalHuggingPriority="750" tag="7" translatesAutoresizingMaskIntoConstraints="NO" id="ERF-FI-3NJ">
+                                        <rect key="frame" x="11" y="57" width="225" height="18"/>
                                         <buttonCell key="cell" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="xGe-fK-caL">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -795,9 +798,11 @@
                                             <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="zDH-ZL-6Fm"/>
                                         </connections>
                                     </button>
-                                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="6" translatesAutoresizingMaskIntoConstraints="NO" id="0rm-Ut-313">
-                                        <rect key="frame" x="413" y="91" width="183" height="32"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <button verticalHuggingPriority="750" tag="6" translatesAutoresizingMaskIntoConstraints="NO" id="0rm-Ut-313">
+                                        <rect key="frame" x="497" y="88" width="225" height="39"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="0rm-Ut-313" secondAttribute="height" multiplier="181:30" id="P6Y-Cn-PyU"/>
+                                        </constraints>
                                         <buttonCell key="cell" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="qTW-Mw-ncd">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -808,21 +813,37 @@
                                     </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="OIr-dF-kWn" firstAttribute="width" secondItem="tIa-UU-Jae" secondAttribute="width" id="284-bk-dB2"/>
+                                    <constraint firstItem="ERF-FI-3NJ" firstAttribute="top" secondItem="tIa-UU-Jae" secondAttribute="bottom" constant="26" id="4hx-aT-hhv"/>
+                                    <constraint firstItem="Ay7-qs-hen" firstAttribute="leading" secondItem="OIr-dF-kWn" secondAttribute="leading" id="6FN-N8-FbO"/>
+                                    <constraint firstAttribute="trailing" secondItem="0rm-Ut-313" secondAttribute="trailing" constant="20" id="7zo-Li-bgA"/>
+                                    <constraint firstItem="0rm-Ut-313" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="OIr-dF-kWn" secondAttribute="trailing" constant="8" symbolic="YES" id="8N6-9Y-VoA"/>
+                                    <constraint firstItem="OIr-dF-kWn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tIa-UU-Jae" secondAttribute="trailing" constant="8" symbolic="YES" id="9Sb-fD-1bC"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ERF-FI-3NJ" secondAttribute="trailing" constant="20" symbolic="YES" id="Alo-fy-YJ5"/>
                                     <constraint firstItem="Zm3-0O-N3Y" firstAttribute="centerY" secondItem="GGK-vq-anP" secondAttribute="centerY" id="BbQ-5u-WRD"/>
+                                    <constraint firstItem="OIr-dF-kWn" firstAttribute="centerY" secondItem="tIa-UU-Jae" secondAttribute="centerY" id="Doc-4r-pbK"/>
+                                    <constraint firstItem="ERF-FI-3NJ" firstAttribute="width" secondItem="tIa-UU-Jae" secondAttribute="width" id="EYv-Je-Itr"/>
                                     <constraint firstItem="Ay7-qs-hen" firstAttribute="height" secondItem="GGK-vq-anP" secondAttribute="height" id="FaZ-VI-R8M"/>
+                                    <constraint firstItem="0rm-Ut-313" firstAttribute="width" secondItem="tIa-UU-Jae" secondAttribute="width" id="FlD-dG-Vkw"/>
                                     <constraint firstItem="Zm3-0O-N3Y" firstAttribute="height" secondItem="GGK-vq-anP" secondAttribute="height" id="R3g-95-fgy"/>
+                                    <constraint firstItem="ERF-FI-3NJ" firstAttribute="leading" secondItem="GGK-vq-anP" secondAttribute="leading" id="Svb-Bc-Nh7"/>
+                                    <constraint firstItem="tIa-UU-Jae" firstAttribute="leading" secondItem="GGK-vq-anP" secondAttribute="leading" id="Uz8-Kn-mp9"/>
+                                    <constraint firstItem="tIa-UU-Jae" firstAttribute="top" secondItem="GGK-vq-anP" secondAttribute="bottom" constant="28" id="Xqj-1d-ang"/>
                                     <constraint firstItem="Zm3-0O-N3Y" firstAttribute="leading" secondItem="Ay7-qs-hen" secondAttribute="trailing" constant="20" id="d8u-nE-5i8"/>
+                                    <constraint firstItem="Zm3-0O-N3Y" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="0rm-Ut-313" secondAttribute="leading" id="gNk-Pb-HW9"/>
                                     <constraint firstItem="Ay7-qs-hen" firstAttribute="leading" secondItem="GGK-vq-anP" secondAttribute="trailing" constant="20" id="icM-OU-rzA"/>
                                     <constraint firstItem="GGK-vq-anP" firstAttribute="leading" secondItem="oRl-YW-9D1" secondAttribute="leading" constant="13" id="jpS-jX-mk3"/>
                                     <constraint firstItem="Ay7-qs-hen" firstAttribute="centerY" secondItem="GGK-vq-anP" secondAttribute="centerY" id="kDJ-hp-KA2"/>
                                     <constraint firstItem="Zm3-0O-N3Y" firstAttribute="width" secondItem="GGK-vq-anP" secondAttribute="width" id="kkK-or-QGo"/>
+                                    <constraint firstItem="tIa-UU-Jae" firstAttribute="width" secondItem="GGK-vq-anP" secondAttribute="width" id="ocF-tI-wqT"/>
                                     <constraint firstItem="GGK-vq-anP" firstAttribute="top" secondItem="oRl-YW-9D1" secondAttribute="top" constant="20" id="qg6-j6-3z0"/>
                                     <constraint firstAttribute="trailing" secondItem="Zm3-0O-N3Y" secondAttribute="trailing" constant="20" id="r3M-2g-R0q"/>
+                                    <constraint firstItem="0rm-Ut-313" firstAttribute="centerY" secondItem="tIa-UU-Jae" secondAttribute="centerY" id="wmj-8X-1c2"/>
                                     <constraint firstItem="Ay7-qs-hen" firstAttribute="width" secondItem="GGK-vq-anP" secondAttribute="width" id="xfJ-pl-HtC"/>
                                     <constraint firstAttribute="height" constant="200" id="yRq-5v-KdK"/>
                                 </constraints>
                             </customView>
-                            <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QUJ-xp-QGV">
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QUJ-xp-QGV">
                                 <rect key="frame" x="140" y="46" width="63" height="32"/>
                                 <buttonCell key="cell" type="push" title="stop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Owr-c3-iHd">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -835,19 +856,21 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="oRl-YW-9D1" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="1E5-Un-Dkt"/>
-                            <constraint firstItem="Y9F-9I-v0x" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="173" id="82Z-3G-NcU"/>
-                            <constraint firstItem="Y9F-9I-v0x" firstAttribute="top" secondItem="oRl-YW-9D1" secondAttribute="bottom" constant="68" id="MyP-YX-eCd"/>
+                            <constraint firstItem="QUJ-xp-QGV" firstAttribute="leading" secondItem="Y9F-9I-v0x" secondAttribute="trailing" constant="78" id="CxF-Q7-ecw"/>
+                            <constraint firstAttribute="bottom" secondItem="Y9F-9I-v0x" secondAttribute="bottom" constant="53" id="DMf-Y2-N5y"/>
+                            <constraint firstItem="Y9F-9I-v0x" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="GZQ-Ce-MhQ"/>
+                            <constraint firstAttribute="bottom" secondItem="QUJ-xp-QGV" secondAttribute="bottom" constant="53" id="OrT-dg-LvD"/>
                             <constraint firstAttribute="trailing" secondItem="oRl-YW-9D1" secondAttribute="trailing" id="VFj-d9-J3I"/>
-                            <constraint firstItem="Y9F-9I-v0x" firstAttribute="trailing" secondItem="QUJ-xp-QGV" secondAttribute="trailing" id="WWr-Tl-4kU"/>
-                            <constraint firstItem="QUJ-xp-QGV" firstAttribute="top" secondItem="Y9F-9I-v0x" secondAttribute="bottom" constant="32" id="XhO-BC-pqn"/>
                             <constraint firstItem="oRl-YW-9D1" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="Zns-8F-cvC"/>
-                            <constraint firstItem="Y9F-9I-v0x" firstAttribute="leading" secondItem="QUJ-xp-QGV" secondAttribute="leading" id="cHv-kU-vmc"/>
+                            <constraint firstItem="QUJ-xp-QGV" firstAttribute="height" secondItem="Y9F-9I-v0x" secondAttribute="height" id="hsV-Xd-0hK"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="QUJ-xp-QGV" secondAttribute="trailing" constant="20" symbolic="YES" id="huT-Kz-oXZ"/>
+                            <constraint firstItem="QUJ-xp-QGV" firstAttribute="width" secondItem="Y9F-9I-v0x" secondAttribute="width" id="pfP-6b-QtO"/>
                         </constraints>
                     </view>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-180" y="697"/>
+            <point key="canvasLocation" x="-213.5" y="713"/>
         </scene>
     </scenes>
 </document>

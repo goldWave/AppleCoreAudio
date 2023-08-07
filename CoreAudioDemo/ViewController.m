@@ -10,12 +10,14 @@
 #import "JBGenerateAudioRaw.h"
 #import <CoreAudio/CoreAudio.h>
 #import "JBPlayLocalMusicFile.h"
+#import "JBLicalAudioFileConvecter.h"
 
 typedef NS_ENUM(NSInteger, JBAudioType) {
     JBAudioType_None = 0,
     JBAudioType_Read_File,
     JBAudioType_Generate_Raw_data,
     JBAudioType_Play_Music,
+    JBAudioType_MusicFile_2_PCMFile,
 };
 
 @interface ViewController()
@@ -46,7 +48,7 @@ typedef NS_ENUM(NSInteger, JBAudioType) {
     switch (self.selectType) {
         case JBAudioType_Read_File:
             // 打印 音频 文件的metadata 和 流信息
-            [[[JBCoreAudioMusicFile alloc] init] start];
+            [JBCoreAudioMusicFile  start];
             break;
         case JBAudioType_Generate_Raw_data:
             // 生成 原始的 波形图的 raw data 的音频数据
@@ -55,6 +57,11 @@ typedef NS_ENUM(NSInteger, JBAudioType) {
         case JBAudioType_Play_Music: {
             // 播放本地音频文件
             [[JBPlayLocalMusicFile sharedInstance] start];
+        }
+            break;
+        case JBAudioType_MusicFile_2_PCMFile: {
+            // 本地编码的音频文件，转换成 pcm 文件
+            [[JBLicalAudioFileConvecter sharedInstance] start];
         }
             break;
         default:

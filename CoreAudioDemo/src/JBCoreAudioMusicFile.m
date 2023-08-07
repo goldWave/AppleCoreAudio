@@ -7,12 +7,12 @@
 
 #import "JBCoreAudioMusicFile.h"
 #import <AudioToolbox/AudioToolbox.h>
-
+#include "JBHelper.h"
 
 
 @implementation JBCoreAudioMusicFile
 
-- (void)getMetaData:(AudioFileID )audioFile {
++ (void)getMetaData:(AudioFileID )audioFile {
     
     /**
      {
@@ -46,25 +46,17 @@
     status = AudioFileGetProperty(audioFile, kAudioFilePropertyFormatList, &dicSize, formatList);
     printErr(@"AudioFileGetProperty kAudioFilePropertyInfoDictionary", status);
     
-    NSLog(@"mp3 文件 包含的流信息");
+    NSLog(@"音频文件包含的流信息");
     for (int i = 0; i * sizeof(AudioFormatListItem) < dicSize; i += sizeof(AudioFormatListItem)) {
         AudioStreamBasicDescription pasbd = formatList[i].mASBD;
-        NSLog(@"mFormatID = %d", (signed int)pasbd.mFormatID);
-        NSLog(@"mFormatFlags = %d", (signed int)pasbd.mFormatFlags);
-        NSLog(@"mSampleRate = %ld", (signed long int)pasbd.mSampleRate);
-        NSLog(@"mBitsPerChannel = %d", (signed int)pasbd.mBitsPerChannel);
-        NSLog(@"mBytesPerFrame = %d", (signed int)pasbd.mBytesPerFrame);
-        NSLog(@"mBytesPerPacket = %d", (signed int)pasbd.mBytesPerPacket);
-        NSLog(@"mChannelsPerFrame = %d", (signed int)pasbd.mChannelsPerFrame);
-        NSLog(@"mFramesPerPacket = %d", (signed int)pasbd.mFramesPerPacket);
-        NSLog(@"mReserved = %d", (signed int)pasbd.mReserved);
+        [JBHelper printASBD:pasbd];
     }
     
     free(formatList);
 }
 
 // 获取AudioFileTypeID + AudioFormatID 的格式组合所支持的所有 asbd， 可以用来判断 音频格式的配置是否支持
-- (void)getAudioDesc {
++ (void)getAudioDesc {
     printf("\n\n\n\n\n枚举 kAudioFileMP3Type + kAudioFormatMPEGLayer3 支持的所有格式\n");
     
     AudioFileTypeID typeID = kAudioFileMP3Type;
@@ -106,12 +98,9 @@
     }
     free(asbds);
 }
-
-- (void)start {
-    NSString *mp3Str = @"/Users/jimbo/Music/网易云音乐/周传雄 - 关不上的窗.mp3";
-    NSURL *mp3URL = [NSURL fileURLWithPath:mp3Str];
++ (void)startWithURL:(NSURL *)audioURL {
     AudioFileID audioFile;
-    OSStatus status =  AudioFileOpenURL((__bridge CFURLRef)mp3URL, kAudioFileReadPermission, 0, &audioFile);
+    OSStatus status =  AudioFileOpenURL((__bridge CFURLRef)audioURL, kAudioFileReadPermission, 0, &audioFile);
     printErr(@"AudioFileOpenURL", status);
 
     [self getMetaData:audioFile];
@@ -119,6 +108,12 @@
     status = AudioFileClose(audioFile);
     printErr(@"AudioFileClose", status);
     
+    
+}
+
++ (void)start {
+    NSURL *audioURL  = [[NSBundle mainBundle] URLForResource:@"句号" withExtension:@"flac"];
+    [self startWithURL:audioURL];
     [self getAudioDesc];
 }
 

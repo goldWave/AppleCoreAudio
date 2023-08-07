@@ -105,7 +105,7 @@
 
 //打开 音频 文件
 - (void)openAudioFile{
-    NSURL *audioURL  = [[NSBundle mainBundle] URLForResource:@"G_E_M_ 邓紫棋 - 句号" withExtension:@"flac"];
+    NSURL *audioURL  = [[NSBundle mainBundle] URLForResource:@"句号" withExtension:@"flac"];
     OSStatus status =  AudioFileOpenURL((__bridge  CFURLRef)audioURL, kAudioFileReadPermission, 0, &(_audioFile));
     printErr(@"AudioFileOpenURL", status);
 }

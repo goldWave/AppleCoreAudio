@@ -1,5 +1,5 @@
 //
-//  JBMusicFileCionvertToPCMFile.h
+//  JBLicalAudioFileConvecter.h
 //  CoreAudioDemo
 //
 //  Created by jimbo on 2023/7/21.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface JBMusicFileCionvertToPCMFile : NSObject
+@interface JBLicalAudioFileConvecter : NSObject
 + (instancetype)sharedInstance;
 - (void)start;
 @end
