@@ -88,7 +88,7 @@ NSString *const JBStopNotification = @"JBStopNotification";
 
 
 + (void)prisnFFmpegLogWithASBD:(AudioStreamBasicDescription)ASBD path:(NSString *)path preLog:(NSString *)preLog {
-    if ([path hasSuffix:@".caf"]) {
+    if (![path hasSuffix:@".pcm"]) {
         NSString *log = [NSString stringWithFormat:@"%@ ffplay %@",preLog, path];
         printf("%s\n", log.UTF8String);
         return;;

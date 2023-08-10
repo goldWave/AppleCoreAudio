@@ -1,5 +1,5 @@
 //
-//  JBLicalAudioFileConvecter.m
+//  JBLocalAudioFileConvecter.m
 //  CoreAudioDemo
 //
 //  Created by jimbo on 2023/7/21.
@@ -14,28 +14,29 @@
 @public
     AudioFileID _inFile;
     AudioFileID _outFile; //输出文件1 .caf 文件会在头部包含必要的asbd信息
-    FILE *_outPCMFile; //输出文件2 .pcm全是裸数据
+    FILE *_outFile_2; //输出文件2 .pcm全是裸数据
     char * _inBuffer;
 }
 
 @property (atomic, assign) BOOL isRunning;
-@property (atomic, assign) AudioFormatID outputFormat; //输出文件格式，pcm? aac? flac? mp3?
+@property (nonatomic, strong) dispatch_queue_t workQueue;
+@property (nonatomic, strong) NSURL *inFileURL;
+@property (nonatomic, strong) NSURL *outFileURL1; //输出文件 使用 AudioFileID
+@property (nonatomic, strong) NSURL *outFileURL2; //输出文件 使用 FILE *
 
-
+/**------   输入   ---------**/
 @property (nonatomic, assign) AudioStreamBasicDescription inASBD;
 @property (nonatomic, assign) UInt32 inMaxSizePerPacket; //输入文件包里面的最大尺寸的包的尺寸
 @property (nonatomic, assign) UInt32 inNumPacketPerRead; //输入文件的，自己malloc的buffer内能容纳的最大packet数量
 @property (nonatomic, assign) UInt32 inPacketReadIndex; //输入文件读取的包的下标
 @property (nonatomic, assign) AudioStreamPacketDescription *inASPDs;
 
+/**------   输出   ---------**/
+@property (atomic, assign) AudioFormatID outputFormat; //输出文件格式，pcm? aac? flac? mp3?
 @property (nonatomic, assign) AudioStreamBasicDescription outASBD;
 @property (nonatomic, assign) AudioStreamPacketDescription *outASPDs;
 
-@property (nonatomic, strong) dispatch_queue_t workQueue;
 
-@property (nonatomic, strong) NSURL *inFileURL;
-@property (nonatomic, strong) NSURL *outFileURL1;
-@property (nonatomic, strong) NSURL *outFileURL2;
 @end
 
 static void getAudioFileProperty(AudioFileID fileID, AudioFilePropertyID inPropertyID, void *outData, NSString *logID) {
@@ -86,11 +87,12 @@ static void getAudioConverterProperty(AudioConverterRef audioConverter, AudioCon
     self.inASPDs = NULL;
     self.outASPDs = NULL;
     self.inASPDs = NULL;
-    _outPCMFile = NULL;
+    _outFile_2 = NULL;
     _inBuffer = NULL;
     _inFile = NULL;
     _outFile = NULL;
     self.outputFormat = kAudioFormatLinearPCM;
+    self.inPacketReadIndex = 0;
 }
 
 // 开始
@@ -145,23 +147,19 @@ static void getAudioConverterProperty(AudioConverterRef audioConverter, AudioCon
     JBAssertNoError(AudioFileCreateWithURL((__bridge CFURLRef)self.outFileURL1, kAudioFileCAFType, &_outASBD, kAudioFileFlags_EraseFile, &_outFile),@"AudioFileCreateWithURL");
     
     //打开 输出 音频 文件2
-    if (_outPCMFile == NULL) {
+    if (_outFile_2 == NULL) {
         NSString *pathStr_cfile = [self.outFileURL2.absoluteString stringByReplacingOccurrencesOfString:@"file://" withString:@""];
-        _outPCMFile = fopen([pathStr_cfile UTF8String], "wb++");
+        _outFile_2 = fopen([pathStr_cfile UTF8String], "wb++");
     }
-    //    printf("\n\ninASBD\n");
-    //    [JBHelper printASBD:self.inASBD];
-    //    printf("\n\noutASBD\n");
-    //    [JBHelper printASBD:self.outASBD];
-    
+
     //创建转换对象
     AudioConverterRef audioConverter;
     JBAssertNoError(AudioConverterNew(&_inASBD, &_outASBD, &audioConverter),@"AudioConverterNew");
     
+    //读取magic cookie
     [self readMagicCookie:audioConverter];
     
     //重新从 Audio Convert 获取被校正过的 ASBD数据
-    
     JBAssertNoError(AudioConverterGetProperty(audioConverter, kAudioConverterCurrentInputStreamDescription, &size, &_inASBD), @"kAudioConverterCurrentInputStreamDescription get infile");
     JBAssertNoError(AudioConverterGetProperty(audioConverter, kAudioConverterCurrentOutputStreamDescription, &size, &_outASBD), @"kAudioConverterCurrentInputStreamDescription get outfile");
     
@@ -170,6 +168,7 @@ static void getAudioConverterProperty(AudioConverterRef audioConverter, AudioCon
     printf("\n\n    after outASBD\n");
     [JBHelper printASBD:self.outASBD];
     
+    //设置输入缓冲区的数据大小
     UInt32 inBufferSize = 4096*8;
     _inBuffer = malloc(inBufferSize);
     
@@ -180,7 +179,6 @@ static void getAudioConverterProperty(AudioConverterRef audioConverter, AudioCon
          据了解 kAudioFilePropertyPacketSizeUpperBound 不会打开整个文件，只是预测
          kAudioFilePropertyMaximumPacketSize 有可能会打开文件来计算
          */
-        
         UInt32 inSizePerPacket = 0;   //18466 in this file aac
         size = sizeof(inSizePerPacket);
         JBAssertNoError(AudioFileGetProperty(_inFile, kAudioFilePropertyPacketSizeUpperBound, &size, &inSizePerPacket), @"kAudioFilePropertyPacketSizeUpperBound");
@@ -198,7 +196,7 @@ static void getAudioConverterProperty(AudioConverterRef audioConverter, AudioCon
     
     /**  配置输入信息  */
     char *outBuffer;
-    UInt32 outBufferSize = 4096*8;
+    UInt32 outBufferSize = 4096*8; //输出缓冲区的大小，这里设置成和输入一样的值
     outBuffer = (char *)malloc(outBufferSize);
     memset(outBuffer, 0, outBufferSize);
     
@@ -240,20 +238,22 @@ static void getAudioConverterProperty(AudioConverterRef audioConverter, AudioCon
             break;
         }
         
+        //创建输出的AudioBuffer
         AudioBufferList outBufferList = {0};
         outBufferList.mNumberBuffers = 1;
         outBufferList.mBuffers[0].mNumberChannels = self.outASBD.mChannelsPerFrame;
         outBufferList.mBuffers[0].mDataByteSize = outBufferSize;
-        outBufferList.mBuffers[0].mData = outBuffer;
+        outBufferList.mBuffers[0].mData = outBuffer; //这里直接将我们上面malloc的对象赋值进去，每次重用堆空间
         
         //malloc的输入缓冲区能够装下的最大包数量
         UInt32 ioOutDataPacketsPerOut = numPaketPerOut;
         status = AudioConverterFillComplexBuffer(audioConverter,
                                                           JBAudioConverterCallback,
                                                           (__bridge void *)self,
-                                                          &ioOutDataPacketsPerOut,
-                                                          &outBufferList,
-                                                          self.outASPDs);
+                                                          &ioOutDataPacketsPerOut, //输出的数量
+                                                          &outBufferList, //输出的buffer
+                                                          self.outASPDs //输出文件的aspd，我们在上面开辟了内存
+                                                 );
         printErr(@"AudioConverterFillComplexBuffer", status);
         
         if(status != noErr) {
@@ -267,6 +267,7 @@ static void getAudioConverterProperty(AudioConverterRef audioConverter, AudioCon
         
         NSLog(@"convert 输出：写入包数量：%d, offset:%d size:%d,", ioOutDataPacketsPerOut, outFilePacketOffset, outBufferList.mBuffers[0].mDataByteSize);
         
+        //写入文件 到 AudioFile
         JBAssertNoError(AudioFileWritePackets(_outFile,
                                               false,
                                               outBufferList.mBuffers[0].mDataByteSize,
@@ -276,8 +277,10 @@ static void getAudioConverterProperty(AudioConverterRef audioConverter, AudioCon
                                               outBuffer),
                         @"AudioFileWritePackets");
         
-        fwrite((char *)outBufferList.mBuffers[0].mData, sizeof(char), outBufferList.mBuffers[0].mDataByteSize, _outPCMFile);
+        //写入文件到FILE *
+        fwrite((char *)outBufferList.mBuffers[0].mData, sizeof(char), outBufferList.mBuffers[0].mDataByteSize, _outFile_2);
         
+        //debug 统计
         if (self.outASBD.mBytesPerPacket > 0) {
             totalOutputFrames_debug += (ioOutDataPacketsPerOut * self.outASBD.mFramesPerPacket);
         } else if (self.outASPDs) {
@@ -286,14 +289,14 @@ static void getAudioConverterProperty(AudioConverterRef audioConverter, AudioCon
             }
         }
         
-        
+        //下次输出文件的时候，需要增加这次输出的数量
         outFilePacketOffset += ioOutDataPacketsPerOut;
     } //end while
     
     if (status == noErr) {
         if (self.outASBD.mBitsPerChannel == 0) {
             NSLog(@"总共写入frame数量: %lld", totalOutputFrames_debug);
-            [self writePacketTableInfo:audioConverter];
+            [self writePacketTableInfo_inTrailer:audioConverter];
         }
         
         //在写一次cookie，有时编解码器会在转换结束时更新 cookie
@@ -309,11 +312,11 @@ static void getAudioConverterProperty(AudioConverterRef audioConverter, AudioCon
         free(_inBuffer);
         _inBuffer = NULL;
     }
-    if (_outPCMFile) {
-        fclose(_outPCMFile);
-        _outPCMFile = NULL;
+    if (_outFile_2) {
+        fclose(_outFile_2);
+        _outFile_2 = NULL;
     }
-    
+    //关闭和释放AudioConverter的资源
     JBAssertNoError( AudioConverterDispose(audioConverter),@"AudioConverterFillComplexBuffer");
     if (_inFile) {
         JBAssertNoError(AudioFileClose(_inFile), @"AudioFileClose in");
@@ -401,7 +404,6 @@ static void getAudioConverterProperty(AudioConverterRef audioConverter, AudioCon
 - (void)writeMagicCookie:(AudioConverterRef)converter {
     
     UInt32 cookieDataSize = 0;
-//    UInt32
     OSStatus status = AudioConverterGetPropertyInfo(converter, kAudioConverterCompressionMagicCookie, &cookieDataSize, NULL);
     if (status != noErr && cookieDataSize == 0) {
         NSLog(@"写入 magic cookie 不存在，忽略掉");
@@ -470,7 +472,17 @@ static OSStatus JBAudioConverterCallback (AudioConverterRef               inAudi
     return noErr;
 }
 
-- (void)writePacketTableInfo:(AudioConverterRef)converter {
+/**
+ kAudioConverterPrimeInfo：AudioConverter的启动信息。一些音频数据格式转换，特别是那些涉及采样率转换的音频数据格式转换，
+ 当有leadingFrames或trailingFrames可用时，会产生更高质量的输出。 这些启动信息的适当数量取决于输入的音频数据格式。
+ */
+- (void)writePacketTableInfo_inTrailer:(AudioConverterRef)converter {
+    /**
+     mNumberPackets是包含在文件中的音频数据的总的分组数；
+     mPrimingFrames是经过分组(“packetized”)的流用作准备和/或处理等待时间的帧数；
+     mRemainderFrames是最后分组遗留下的帧数。例如，AAC位流可能仅有在其最后分组中有效的313帧。每分组的帧为1024，所以，在此情形，mRemainderFrames是(1024-313)，其表示了当进行解码时应该从最后分组的输出中裁剪下来的样本数。
+     如果经过编码的位流正被编辑，那么就推荐在将会占据至少mPrimingFrames的编辑点之前的分组应该被所述编辑所采用，以从编辑点中确保音频的完美再现。当然，在随机访问文件中的不同分组以便播放时，mPrimingFrames就应该被用来在所想要的点上重新构造音频。
+     */
     UInt32 size = 0;
     UInt32 isWritable;
     OSStatus status = AudioFileGetPropertyInfo(_outFile, kAudioFilePropertyPacketTableInfo, &size, &isWritable);
@@ -480,14 +492,21 @@ static OSStatus JBAudioConverterCallback (AudioConverterRef               inAudi
         NSLog(@"AudioFileGetPropertyInfo kAudioFilePropertyPacketTableInfo failed return");
         return;
     }
-    
+    /**
+     UInt32      leadingFrames;  ->  0
+     UInt32      trailingFrames; -> 1368
+     */
     AudioConverterPrimeInfo primeInfo;
     size = sizeof(primeInfo);
     status = AudioConverterGetProperty(converter, kAudioConverterPrimeInfo, &size, &primeInfo);
     printErr(@"AudioConverterGetProperty kAudioConverterPrimeInfo", status);
     if (status !=noErr) return;
     
-    
+    /**
+     SInt64  mNumberValidFrames;  ->  442368
+     SInt32  mPrimingFrames;      ->  0
+     SInt32  mRemainderFrames;    ->  0
+     */
     AudioFilePacketTableInfo pTableInfo;
     size = sizeof(pTableInfo);
     
@@ -497,13 +516,19 @@ static OSStatus JBAudioConverterCallback (AudioConverterRef               inAudi
     
     //获取总数量的帧数
     UInt64 totalFrames = pTableInfo.mNumberValidFrames + pTableInfo.mPrimingFrames + pTableInfo.mRemainderFrames;
-    NSLog(@"table info 里面包含的总数量的帧数: %llu", totalFrames);
+    
     
     pTableInfo.mPrimingFrames = primeInfo.leadingFrames;
     pTableInfo.mRemainderFrames = primeInfo.trailingFrames;
     pTableInfo.mNumberValidFrames = totalFrames - pTableInfo.mPrimingFrames - pTableInfo.mRemainderFrames;
     
+    NSLog(@"table info 里面包含的总数量的帧数: %llu,\t mNumberValidFrames:%lld,\t mPrimingFrames：%d,\t mRemainderFrames:%d", totalFrames, pTableInfo.mNumberValidFrames, pTableInfo.mPrimingFrames, pTableInfo.mRemainderFrames);
     
+    /**
+     SInt64  mNumberValidFrames;  ->  441100
+     SInt32  mPrimingFrames;      ->  0
+     SInt32  mRemainderFrames;    ->  1368   (1368 不够组成一个 flac packet，所以被遗留下来？)
+     */
     status = AudioFileSetProperty(_outFile, kAudioFilePropertyPacketTableInfo, sizeof(pTableInfo), &pTableInfo);
     printErr(@"AudioFileSetProperty kAudioFilePropertyPacketTableInfo", status);
 }

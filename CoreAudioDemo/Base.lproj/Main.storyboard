@@ -780,7 +780,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="OIr-dF-kWn" secondAttribute="height" multiplier="181:30" id="bVp-Ha-KJh"/>
                                         </constraints>
-                                        <buttonCell key="cell" type="radio" title="本地PCM文件 转换成 flac" alternateTitle="本地PCM文件 转换成 flac" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="d37-kS-SnV">
+                                        <buttonCell key="cell" type="radio" title="本地PCM文件 转换成 flac" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="d37-kS-SnV">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" size="13" name=".PingFangSC-Regular"/>
                                         </buttonCell>
