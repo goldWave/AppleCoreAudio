@@ -12,13 +12,13 @@
 @interface JBLocalAudioFileConvecter()
 {
 @public
-    AudioFileID _inFile;
+    AudioFileID _inFile; //输入文件指针
     AudioFileID _outFile; //输出文件1 .caf 文件会在头部包含必要的asbd信息
     FILE *_outFile_2; //输出文件2 .pcm全是裸数据
-    char * _inBuffer;
+    char * _inBuffer; //复用的输入缓冲区
 }
 
-@property (atomic, assign) BOOL isRunning;
+@property (atomic, assign) BOOL isRunning; //代表是否正在编解码
 @property (nonatomic, strong) dispatch_queue_t workQueue;
 @property (nonatomic, strong) NSURL *inFileURL;
 @property (nonatomic, strong) NSURL *outFileURL1; //输出文件 使用 AudioFileID
@@ -35,7 +35,6 @@
 @property (atomic, assign) AudioFormatID outputFormat; //输出文件格式，pcm? aac? flac? mp3?
 @property (nonatomic, assign) AudioStreamBasicDescription outASBD;
 @property (nonatomic, assign) AudioStreamPacketDescription *outASPDs;
-
 
 @end
 
@@ -194,7 +193,7 @@ static void getAudioConverterProperty(AudioConverterRef audioConverter, AudioCon
         self.inASPDs = NULL;
     }
     
-    /**  配置输入信息  */
+    /**  配置输出信息  */
     char *outBuffer;
     UInt32 outBufferSize = 4096*8; //输出缓冲区的大小，这里设置成和输入一样的值
     outBuffer = (char *)malloc(outBufferSize);
@@ -229,7 +228,7 @@ static void getAudioConverterProperty(AudioConverterRef audioConverter, AudioCon
     NSLog(@"---outBufferSize: %d", outBufferSize);
     
     UInt64 totalOutputFrames_debug = 0;
-    UInt32 outFilePacketOffset = 0;
+    UInt32 outFilePacketOffset = 0; //输出文件的写入偏移量
     
     OSStatus status = noErr;
     //阻塞式
