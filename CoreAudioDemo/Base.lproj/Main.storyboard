@@ -707,7 +707,7 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="742" height="370"/>
+                        <rect key="frame" x="0.0" y="0.0" width="757" height="370"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y9F-9I-v0x">
@@ -721,10 +721,10 @@
                                 </connections>
                             </button>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="oRl-YW-9D1">
-                                <rect key="frame" x="0.0" y="170" width="742" height="200"/>
+                                <rect key="frame" x="0.0" y="170" width="757" height="200"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="GGK-vq-anP">
-                                        <rect key="frame" x="11" y="142" width="225" height="39"/>
+                                        <rect key="frame" x="11" y="141" width="230" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="GGK-vq-anP" secondAttribute="height" multiplier="181:30" id="zev-U0-if1"/>
                                         </constraints>
@@ -737,7 +737,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="Ay7-qs-hen">
-                                        <rect key="frame" x="254" y="142" width="225" height="39"/>
+                                        <rect key="frame" x="259" y="141" width="230" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Ay7-qs-hen" secondAttribute="height" multiplier="181:30" id="0XO-X7-JrX"/>
                                         </constraints>
@@ -750,7 +750,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="Zm3-0O-N3Y">
-                                        <rect key="frame" x="497" y="142" width="225" height="39"/>
+                                        <rect key="frame" x="507" y="141" width="230" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Zm3-0O-N3Y" secondAttribute="height" multiplier="181:30" id="lCa-xd-iIn"/>
                                         </constraints>
@@ -763,33 +763,33 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="tIa-UU-Jae">
-                                        <rect key="frame" x="11" y="99" width="225" height="17"/>
+                                        <rect key="frame" x="11" y="98" width="230" height="17"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="tIa-UU-Jae" secondAttribute="height" multiplier="15:1" id="oGZ-v5-lkm"/>
                                         </constraints>
                                         <buttonCell key="cell" type="radio" title="本地flac音频文件转换成PCM文件" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="vLT-Fo-b0T">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                            <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                            <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="aR1-md-YXQ"/>
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" tag="5" translatesAutoresizingMaskIntoConstraints="NO" id="OIr-dF-kWn">
-                                        <rect key="frame" x="254" y="88" width="225" height="39"/>
+                                        <rect key="frame" x="259" y="87" width="230" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="OIr-dF-kWn" secondAttribute="height" multiplier="181:30" id="bVp-Ha-KJh"/>
                                         </constraints>
                                         <buttonCell key="cell" type="radio" title="本地PCM文件 转换成 flac" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="d37-kS-SnV">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                            <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                            <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="radioBtnClick:" target="XfG-lQ-9wD" id="6pT-a9-AD6"/>
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" tag="7" translatesAutoresizingMaskIntoConstraints="NO" id="ERF-FI-3NJ">
-                                        <rect key="frame" x="11" y="57" width="225" height="18"/>
+                                        <rect key="frame" x="11" y="56" width="230" height="18"/>
                                         <buttonCell key="cell" type="radio" title="Radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="xGe-fK-caL">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -799,7 +799,7 @@
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" tag="6" translatesAutoresizingMaskIntoConstraints="NO" id="0rm-Ut-313">
-                                        <rect key="frame" x="497" y="88" width="225" height="39"/>
+                                        <rect key="frame" x="507" y="87" width="230" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="0rm-Ut-313" secondAttribute="height" multiplier="181:30" id="P6Y-Cn-PyU"/>
                                         </constraints>

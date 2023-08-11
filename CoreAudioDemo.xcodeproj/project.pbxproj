@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		582E2AF42A7CEFF2001B2C78 /* 句号_10s.flac in Resources */ = {isa = PBXBuildFile; fileRef = 582E2AF32A7CEFF2001B2C78 /* 句号_10s.flac */; };
 		582E2AFB2A81ECCC001B2C78 /* pcm_44100_setro_s16be.caf in Resources */ = {isa = PBXBuildFile; fileRef = 582E2AFA2A81ECCC001B2C78 /* pcm_44100_setro_s16be.caf */; };
+		582E2AFF2A861BEF001B2C78 /* JBPlayLocalMusic_AudioUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 582E2AFE2A861BEF001B2C78 /* JBPlayLocalMusic_AudioUnit.m */; };
 		5860A1732A6A5E3F00ED2707 /* JBGenerateAudioRaw.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860A16E2A6A5E3F00ED2707 /* JBGenerateAudioRaw.m */; };
-		5860A1742A6A5E3F00ED2707 /* JBPlayLocalMusicFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860A16F2A6A5E3F00ED2707 /* JBPlayLocalMusicFile.m */; };
+		5860A1742A6A5E3F00ED2707 /* JBPlayLocalMusic_AudioQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860A16F2A6A5E3F00ED2707 /* JBPlayLocalMusic_AudioQueue.m */; };
 		5860A1752A6A5E3F00ED2707 /* JBLocalAudioFileConvecter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5860A1712A6A5E3F00ED2707 /* JBLocalAudioFileConvecter.m */; };
 		5897F9082A726D2D00A882EF /* 句号.flac in Resources */ = {isa = PBXBuildFile; fileRef = 5897F9072A726D2D00A882EF /* 句号.flac */; };
 		58DB96C82A58389C00CB4A8B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 58DB96C72A58389C00CB4A8B /* AppDelegate.m */; };
@@ -25,12 +26,14 @@
 /* Begin PBXFileReference section */
 		582E2AF32A7CEFF2001B2C78 /* 句号_10s.flac */ = {isa = PBXFileReference; lastKnownFileType = file; name = "句号_10s.flac"; path = "resource/句号_10s.flac"; sourceTree = "<group>"; };
 		582E2AFA2A81ECCC001B2C78 /* pcm_44100_setro_s16be.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = pcm_44100_setro_s16be.caf; path = resource/pcm_44100_setro_s16be.caf; sourceTree = "<group>"; };
+		582E2AFD2A861BEF001B2C78 /* JBPlayLocalMusic_AudioUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JBPlayLocalMusic_AudioUnit.h; sourceTree = "<group>"; };
+		582E2AFE2A861BEF001B2C78 /* JBPlayLocalMusic_AudioUnit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JBPlayLocalMusic_AudioUnit.m; sourceTree = "<group>"; };
 		5860A16D2A6A5E3F00ED2707 /* JBLocalAudioFileConvecter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBLocalAudioFileConvecter.h; sourceTree = "<group>"; };
 		5860A16E2A6A5E3F00ED2707 /* JBGenerateAudioRaw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBGenerateAudioRaw.m; sourceTree = "<group>"; };
-		5860A16F2A6A5E3F00ED2707 /* JBPlayLocalMusicFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPlayLocalMusicFile.m; sourceTree = "<group>"; };
+		5860A16F2A6A5E3F00ED2707 /* JBPlayLocalMusic_AudioQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBPlayLocalMusic_AudioQueue.m; sourceTree = "<group>"; };
 		5860A1702A6A5E3F00ED2707 /* JBGenerateAudioRaw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBGenerateAudioRaw.h; sourceTree = "<group>"; };
 		5860A1712A6A5E3F00ED2707 /* JBLocalAudioFileConvecter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBLocalAudioFileConvecter.m; sourceTree = "<group>"; };
-		5860A1722A6A5E3F00ED2707 /* JBPlayLocalMusicFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPlayLocalMusicFile.h; sourceTree = "<group>"; };
+		5860A1722A6A5E3F00ED2707 /* JBPlayLocalMusic_AudioQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBPlayLocalMusic_AudioQueue.h; sourceTree = "<group>"; };
 		5897F9072A726D2D00A882EF /* 句号.flac */ = {isa = PBXFileReference; lastKnownFileType = file; name = "句号.flac"; path = "resource/句号.flac"; sourceTree = "<group>"; };
 		58DB96C32A58389C00CB4A8B /* CoreAudioDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreAudioDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58DB96C62A58389C00CB4A8B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -65,10 +68,12 @@
 				5860A16E2A6A5E3F00ED2707 /* JBGenerateAudioRaw.m */,
 				5860A16D2A6A5E3F00ED2707 /* JBLocalAudioFileConvecter.h */,
 				5860A1712A6A5E3F00ED2707 /* JBLocalAudioFileConvecter.m */,
-				5860A1722A6A5E3F00ED2707 /* JBPlayLocalMusicFile.h */,
-				5860A16F2A6A5E3F00ED2707 /* JBPlayLocalMusicFile.m */,
+				5860A1722A6A5E3F00ED2707 /* JBPlayLocalMusic_AudioQueue.h */,
+				5860A16F2A6A5E3F00ED2707 /* JBPlayLocalMusic_AudioQueue.m */,
 				58DB96D92A583EED00CB4A8B /* JBCoreAudioMusicFile.h */,
 				58DB96DA2A583EED00CB4A8B /* JBCoreAudioMusicFile.m */,
+				582E2AFD2A861BEF001B2C78 /* JBPlayLocalMusic_AudioUnit.h */,
+				582E2AFE2A861BEF001B2C78 /* JBPlayLocalMusic_AudioUnit.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -182,9 +187,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5860A1742A6A5E3F00ED2707 /* JBPlayLocalMusicFile.m in Sources */,
+				5860A1742A6A5E3F00ED2707 /* JBPlayLocalMusic_AudioQueue.m in Sources */,
 				58DB96DE2A58414500CB4A8B /* JBHelper.m in Sources */,
 				58DB96CB2A58389C00CB4A8B /* ViewController.m in Sources */,
+				582E2AFF2A861BEF001B2C78 /* JBPlayLocalMusic_AudioUnit.m in Sources */,
 				5860A1752A6A5E3F00ED2707 /* JBLocalAudioFileConvecter.m in Sources */,
 				58DB96DB2A583EED00CB4A8B /* JBCoreAudioMusicFile.m in Sources */,
 				58DB96D22A58389D00CB4A8B /* main.m in Sources */,

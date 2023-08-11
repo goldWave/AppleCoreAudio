@@ -1,11 +1,11 @@
 //
-//  JBPlayLocalMusicFile.m
+//  JBPlayLocalMusic_AudioQueue.m
 //  CoreAudioDemo
 //
 //  Created by jimbo on 2023/7/17.
 //
 
-#import "JBPlayLocalMusicFile.h"
+#import "JBPlayLocalMusic_AudioQueue.h"
 #include <AudioToolbox/AudioFile.h>
 #include "JBHelper.h"
 #include <AudioToolbox/AudioToolbox.h>
@@ -15,7 +15,7 @@
 //分配三个缓冲区
 #define kNumberBuffer 3
 
-@interface JBPlayLocalMusicFile()
+@interface JBPlayLocalMusic_AudioQueue()
 {
 @public
     AudioFileID _audioFile;
@@ -24,16 +24,16 @@
 }
 
 @property (nonatomic, assign) AudioStreamBasicDescription mASBD;
-@property (nonatomic, assign) BOOL isDone; //是否播放完毕
+@property (nonatomic, assign) BOOL isRunning; //是否正在播放
 @property (nonatomic, assign) UInt32 byteSizeInBuffer; //缓冲区应有的字节数（0.5秒内）
 @property (nonatomic, assign) UInt32 packetsNumInBuffer; // 缓冲区应对应的数据包数量（0.5秒内）
 @property (nonatomic, assign) Float64 readOffsetOfPackets; //读取了多少 packets
 @end
 
-@implementation JBPlayLocalMusicFile
+@implementation JBPlayLocalMusic_AudioQueue
 
 + (instancetype)sharedInstance {
-    static JBPlayLocalMusicFile *sharedSingleton = nil;
+    static JBPlayLocalMusic_AudioQueue *sharedSingleton = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^(void) {
         sharedSingleton = [[self alloc] init];
@@ -44,17 +44,18 @@
 - (instancetype)init {
     self = [super init];
     _aspds = NULL;
-    _isDone = true;
+    _isRunning = false;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stop) name:JBStopNotification object:nil];
     return  self;
 }
 
 // 开始
 - (void)start {
-    if (!self.isDone) {
+    if (self.isRunning) {
         //播放中
         return;
     }
+    self.isRunning = YES;
     [self openAudioFile];
     [self getASBDInFile];
     
@@ -79,7 +80,7 @@
     //开辟Audio Queue的缓冲队列
     [self allocAudioQueue];
     
-    if (self.isDone) {
+    if (!self.isRunning) {
         NSLog(@"使用完毕");
         [self stop];
         return;
@@ -99,7 +100,7 @@
     }
     status = AudioFileClose(_audioFile);
     printErr(@"AudioFileClose", status);
-    self.isDone = true;
+    self.isRunning = NO;
     NSLog(@"播放结束");
 }
 
@@ -115,8 +116,8 @@ static void jbAudioQueueOutputCallback(void * inUserData,
                                        AudioQueueBufferRef inBuffer //需要填充的缓冲区播放数据的引用
 ) {
     
-    JBPlayLocalMusicFile *playClass = (__bridge JBPlayLocalMusicFile *)inUserData;
-    if (playClass->_isDone) {
+    JBPlayLocalMusic_AudioQueue *playClass = (__bridge JBPlayLocalMusic_AudioQueue *)inUserData;
+    if (!playClass.isRunning) {
         return;
     }
     
@@ -135,7 +136,7 @@ static void jbAudioQueueOutputCallback(void * inUserData,
     printErr(@"AudioFileReadPacketData", status);
     if (numberBytes <= 0 || numberPackets <= 0) {
         NSLog(@"数据读取完毕");
-        playClass->_isDone = true;
+        playClass.isRunning = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
             [playClass stop];
         });
@@ -289,7 +290,7 @@ static void jbAudioQueueOutputCallback(void * inUserData,
         //手动调用回调，用音频文件中的音频数据填充缓冲区。
         //后续调用AudioQueueStart后，会自动触发回调进行调用
         jbAudioQueueOutputCallback((__bridge  void *)self, _mQueue, buffers[i]);
-        if (self.isDone) {
+        if (!self.isRunning) {
             //回调函数中设置为true后，代表剩余时间小于1.5秒
             break;
         }
